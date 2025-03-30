@@ -1,0 +1,5 @@
+/* Extends tailwind styling for global use */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@custom-variant dark (&:where(.dark, .dark *));

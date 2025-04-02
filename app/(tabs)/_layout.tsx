@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
     tabBarDark: {
-        backgroundColor: '#2C2C2C',
-        borderColor: '#2C2C2C',
+        backgroundColor: '#222222',
+        borderColor: '#222222',
     },
     tabBarLight: {
         backgroundColor: '#e5e5e5',

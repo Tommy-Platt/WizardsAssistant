@@ -7,6 +7,7 @@ import logo48 from "@/assets/icons/WA-logo-48.png";
 import logo64 from "@/assets/icons/WA-logo-64.png";
 import checkboxUnchecked from "@/assets/icons/checkbox-unchecked.png";
 import checkbox from "@/assets/icons/checkbox.png";
+import account from "@/assets/icons/account.png";
 
 export const icons = {
   dnd,
@@ -17,5 +18,6 @@ export const icons = {
   logo48,
   logo64,
   checkboxUnchecked,
-  checkbox
+  checkbox,
+  account,
 };

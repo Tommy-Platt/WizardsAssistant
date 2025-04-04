@@ -1,10 +1,12 @@
 // Homepage/Settings menu for the app
-import { Text, View, Image, ScrollView, TouchableWithoutFeedback } from "react-native";
+import { Text, View, Image, ScrollView, TouchableWithoutFeedback, Switch, Appearance, useColorScheme } from "react-native";
 import React, { useState } from "react";
 import { icons } from "@/constants/icons";
 
 export default function Index() {
   const [checkedStates, setCheckedStates] = useState([false, false, false, false, false, false]);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const colorScheme = useColorScheme();
 
   return (
     // Main background view which can be scrolled.
@@ -28,16 +30,44 @@ export default function Index() {
           </View>
         </View>
 
+        <View className="flex-row items-center justify-between mt-4">
+
+          {/* Dark mode toggle switch. This will set the color scheme to dark or light depending on the current state. */}
+          <View className="flex-row items-center justify-end mt-3 mb-1">
+            <Text className="text-xl dark:text-primary text-dark-100 font-bold">Dark Mode</Text>
+            <Switch value={colorScheme=='dark'} 
+              trackColor={{false: '#B5B5B5', true: '#AF52DE'}}
+              thumbColor={isEnabled ? '#B416B1' : '#E5E5E5'}
+              onChange={() => {
+                Appearance.setColorScheme(colorScheme=='dark' ? 'light' : 'dark')
+              }}
+            />
+          </View>
+
+          {/* Button to reset to system default. This will set the color scheme to null, which is the system default. */}
+          <View>
+            <TouchableWithoutFeedback onPress={() => {
+              Appearance.setColorScheme(null); // Resets to system default
+              setIsEnabled(false); // Reset the toggle state
+            }}>
+              <View className="px-4 py-2 rounded-full bg-accent">
+                <Text className="text-base dark:text-primary text-dark-100">System Default</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+
+        </View>
+
         {/* Box that encapsulates features. Includes a title, divider and features w/ descriptions and checkboxes. */}
-        <View className="my-16 px-4 py-3 rounded-3xl dark:bg-dark-200 bg-light-200 mb-36">
+        <View className="px-4 py-3 rounded-3xl dark:bg-dark-200 bg-light-200 mb-36">
           <Text className="text-xl dark:text-primary text-dark-100 font-bold">
           Choose your desired features to customise your experience.
           </Text>
           <View className="h-0.5 bg-dark-100 dark:bg-primary my-4"></View>
           <View>
+            
+            {/* D&D Items listing */}   
             <View className="flex-row items-center my-2">
-
-              {/* D&D Items listing */}
               <View className="flex-1">
                 <Text className="text-lg dark:text-primary text-dark-100">D&D Items</Text>
                 <Text className="text-base dark:text-light-100 text-dark-200 mt-1">Search all D&D 5E (base game) items!</Text>

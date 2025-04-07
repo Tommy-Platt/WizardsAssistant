@@ -120,7 +120,7 @@ export default function Index() {
               </TouchableWithoutFeedback>
             </View>
 
-            {/* D&D Dioe Roller listing */}
+            {/* D&D Dice Roller listing */}
             <View className="flex-row items-center my-2">
               <View className="flex-1">
                 <Text className="text-lg dark:text-primary text-dark-100">D&D Dice Roller</Text>

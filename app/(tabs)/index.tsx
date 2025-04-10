@@ -2,19 +2,22 @@
 import { Text, View, Image, ScrollView, TouchableWithoutFeedback, Switch, Appearance, useColorScheme } from "react-native";
 import React, { useState } from "react";
 import { icons } from "@/constants/icons";
+import { useAuth } from '../../contexts/AuthProvider'
 
 export default function Index() {
   const [checkedStates, setCheckedStates] = useState([false, false, false, false, false, false]);
   const [isEnabled, setIsEnabled] = useState(false);
   const colorScheme = useColorScheme();
+  const { session } = useAuth() // Async auth persists on this page
 
   return (
+
     // Main background view which can be scrolled.
     <View className="flex-1 dark:bg-dark-100 bg-primary">
       <ScrollView className="flex-1 px-5" 
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{minHeight: "100%", paddingBottom: 10}}>
-        
+
         {/* Logo and title in a pill container w/ icon */}
         <Image 
         source={icons.logoTrans} 

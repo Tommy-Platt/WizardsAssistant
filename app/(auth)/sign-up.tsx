@@ -96,11 +96,11 @@ export default function SignUp() {
           <View className="flex-row items-center justify-between mt-6 mb-2">
 
             {/* Forgot Password Link */}
-            <Link className="text-accent" href="/(tabs)/dnd">
+            <Link className="text-accent" href="/forgot-password">
               Forgot password?
             </Link>
 
-            {/* Sign Up Link */}
+            {/* Sign In Link */}
             <Link className="text-accent" href="/">
               Sign In
             </Link>

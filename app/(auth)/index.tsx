@@ -92,7 +92,7 @@ export default function Login() {
           <View className="flex-row items-center justify-between mt-6 mb-2">
 
             {/* Forgot Password Link. CURRENTLY NOT WORKING! */}
-            <Link className="text-accent" href="/(tabs)/dnd">
+            <Link className="text-accent" href="/forgot-password">
               Forgot password?
             </Link>
 

@@ -2,7 +2,7 @@ import { Text, View, Image, ScrollView, Pressable, TextInput, Alert } from "reac
 import { icons } from "@/constants/icons";
 import { Link } from "expo-router";
 import { LinearGradient } from 'expo-linear-gradient';
-import { supabase } from '../lib/supabase'
+import { supabase } from '../../lib/supabase'
 import { useState } from 'react'
 import { useRouter } from "expo-router";
 

@@ -3,6 +3,7 @@ import { Text, View, Image, ScrollView, Pressable } from "react-native";
 import { icons } from "@/constants/icons";
 import { useRouter } from "expo-router";
 import { images } from "@/constants/images";
+import SignOutButton from "@/contexts/sign-out";
 
 export default function MTG() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function MTG() {
               <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
               MTG Tools
               </Text>
-              <Image source={icons.account} className="size-8 -ml-8"></Image>
+              <SignOutButton />
           </View>
         </View>
 

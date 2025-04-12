@@ -1,15 +1,14 @@
 // Homepage/Settings menu for the app
-import { Text, View, Image, ScrollView, TouchableWithoutFeedback, Switch, Appearance, useColorScheme } from "react-native";
+import { Text, View, Image, ScrollView, TouchableWithoutFeedback, Switch, Appearance, useColorScheme, Pressable } from "react-native";
 import React, { useState } from "react";
 import { icons } from "@/constants/icons";
-import { useAuth } from '../../contexts/AuthProvider'
+import SignOutButton from "@/contexts/sign-out";
 
 export default function Index() {
   const [checkedStates, setCheckedStates] = useState([false, false, false, false, false, false]);
   const [isEnabled, setIsEnabled] = useState(false);
   const colorScheme = useColorScheme();
-  const { session } = useAuth() // Async auth persists on this page
-
+  
   return (
 
     // Main background view which can be scrolled.
@@ -29,7 +28,7 @@ export default function Index() {
               <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
               Features
               </Text>
-              <Image source={icons.account} className="size-8 -ml-8"></Image>
+              <SignOutButton />
           </View>
         </View>
 

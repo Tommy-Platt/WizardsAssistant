@@ -5,17 +5,29 @@ import { supabase } from '../../lib/supabase';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function ResetPasswordScreen() {
-  const { access_token } = useLocalSearchParams();
+  const { token } = useLocalSearchParams(); // Gets the token from the URL
   const [newPassword, setNewPassword] = useState('');
   const router = useRouter();
 
   useEffect(() => {
-    if (access_token) {
-      // Supabase should already have the session if the access_token is valid
-      // So we can now allow user to reset password
-    }
-  }, [access_token]);
+      // Checks if the token is valid and set the session
+      const setSupabaseSession = async () => {
+        if (token) {
+          const { data, error } = await supabase.auth.setSession({
+            access_token: token as string,
+            refresh_token: '',
+          });
+    
+          if (error) {
+            Alert.alert('Session Error', error.message);
+          }
+        }
+      };
+    
+      setSupabaseSession();
+    }, [token]);
 
+  // Updates the user password with their new password, displays an error alert otherwise.
   const handleReset = async () => {
     const { data, error } = await supabase.auth.updateUser({
       password: newPassword,

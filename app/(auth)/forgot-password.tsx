@@ -8,7 +8,7 @@ export default function ForgotPasswordScreen() {
 
   const handleSendResetEmail = async () => {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'wizardsassistant://reset-password', // Deep link into app
+      redirectTo: 'wizardsassistant://reset-password/reset', // Deep link into app
     });
 
     if (error) {
@@ -25,7 +25,6 @@ export default function ForgotPasswordScreen() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{minHeight: "100%", paddingBottom: 10}}>
     
-            {/* Box that encapsulates auth inputs and buttons. */}
             <View className="mt-10 px-4 py-3 rounded-3xl dark:bg-dark-200 bg-light-200">
     
               {/* Email Input Box */}
@@ -36,13 +35,13 @@ export default function ForgotPasswordScreen() {
                     className="dark:text-primary text-dark-100" 
                     placeholder="Enter your email."  
                     placeholderTextColor="#A0A0A0"
-                    onChangeText={(text) => setEmail(text)} // Email set for use in signUpWithEmail
+                    onChangeText={(text) => setEmail(text)} // Email set for verification
                     value={email}
                   ></TextInput>
                 </View>
               </View>
     
-              {/* Sign Up Button. Clicking on it calls the sign-up function. */}
+              {/* Verify button. When pressed it sends the email to the user. */}
               <Pressable className="rounded-lg overflow-hidden" onPress={() =>handleSendResetEmail()}>
                 <LinearGradient
                   colors={['#B416B1', '#AF52DE']}

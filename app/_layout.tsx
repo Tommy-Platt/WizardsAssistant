@@ -19,6 +19,10 @@ export default function RootLayout() {
         name="(auth)/sign-up"
         options={{ headerShown: false }} 
         />
+        <Stack.Screen
+          name="(mtg)/cards"
+          options={{ headerShown: false }} 
+        />
         </Stack>
       </AuthProvider>
   );

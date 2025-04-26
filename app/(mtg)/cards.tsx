@@ -1,10 +1,12 @@
-import { Text, View, Image, ScrollView, Pressable, TextInput, Keyboard, ActivityIndicator, StyleSheet } from "react-native";
+import { Text, View, Image, ScrollView, Pressable, TextInput, Keyboard, ActivityIndicator } from "react-native";
 import { icons } from "@/constants/icons";
 import SignOutButton from "@/contexts/sign-out";
 import axios from 'axios';
 import { useState } from "react";
+import { useRouter } from "expo-router";
 
 const cards = () => {
+  const router = useRouter();
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
@@ -97,7 +99,7 @@ const cards = () => {
           </View>
         </View>
 
-        {/* Box that encapsulates tools. Tapping the names of tools redirects to their page */}
+        {/* Box that encapsulates displayed cards */}
         <View className="mt-2 px-4 py-3 rounded-3xl dark:bg-dark-200 bg-light-200 mb-1">
           <Text className="text-xl dark:text-primary text-dark-100 font-bold">Cards</Text>
           <View className="h-0.5 bg-dark-100 dark:bg-primary my-4"></View>
@@ -114,7 +116,11 @@ const cards = () => {
               {displayedCards.length > 0 ? (
                 displayedCards.map((card) => (
                   <View key={card.id} className="mb-5 items-center">
-                    <Image source={{ uri: card.image_uris.normal }} className="w-[223px] h-[310px] rounded-xl" />
+
+                    {/* Pressable card image redirects to card details page */}
+                    <Pressable onPress={() => router.push(`/cards/${card.id}`)}>
+                      <Image source={{ uri: card.image_uris.normal }} className="w-[223px] h-[310px] rounded-xl"/>
+                    </Pressable>
                     <Text className="mt-1 text-xl font-bold text-center dark:text-primary text-dark-100">{card.name}</Text>
                   </View>
                 ))

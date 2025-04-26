@@ -23,6 +23,10 @@ export default function RootLayout() {
           name="(mtg)/cards"
           options={{ headerShown: false }} 
         />
+        <Stack.Screen
+          name="(mtg)/cards/[id]"
+          options={{ headerShown: false }}
+        />
         </Stack>
       </AuthProvider>
   );

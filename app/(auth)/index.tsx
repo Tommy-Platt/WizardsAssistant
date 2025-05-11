@@ -1,4 +1,4 @@
-import { Text, View, Image, ScrollView, Pressable, TextInput, Alert } from "react-native";
+import { Text, View, Image, ScrollView, Pressable, TextInput, Alert, ActivityIndicator } from "react-native";
 import { icons } from "@/constants/icons";
 import { Link } from "expo-router";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -38,6 +38,11 @@ export default function Login() {
     
     // Main background view which can be scrolled.
     <View className="flex-1 dark:bg-dark-100 bg-primary">
+
+      {loading ? (
+        <ActivityIndicator size="large" style={{ marginTop: 20 }} />
+      ): 
+
       <ScrollView className="flex-1 px-5" 
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{minHeight: "100%", paddingBottom: 10}}>
@@ -142,8 +147,8 @@ export default function Login() {
             }
           }}
         />
-
       </ScrollView>
+      }
     </View>
   );
 }

@@ -94,7 +94,7 @@ const cards = () => {
               onSubmitEditing={handleSearch}>
               </TextInput>
               <Pressable onPress={handleSearch}>
-                <Image source={icons.search}></Image>
+                <Image source={icons.search} className='size-8'></Image>
               </Pressable>
           </View>
         </View>

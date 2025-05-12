@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { Text, View, Image, ScrollView, Pressable, TextInput, Keyboard, ActivityIndicator } from "react-native";
   import { icons } from "@/constants/icons";
@@ -12,10 +11,10 @@ const Spells = () => {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
-  const [allCards, setAllCards] = useState<any[]>([]);
-  const [displayedCards, setDisplayedCards] = useState<any[]>([]);
+  const [allSpells, setAllSpells] = useState<any[]>([]);
+  const [displayedSpells, setDisplayedSpells] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const SPELLS_PER_PAGE = 20;
+  const SPELLS_PER_PAGE = 30;
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -31,18 +30,18 @@ const Spells = () => {
         `https://www.dnd5eapi.co/api/2014/spells/?name=${encodeURIComponent(query)}`
       );
       
-      const spellJson = await response.json();
+      const spellJson = response.data;
 
-      // Set all cards to be used, slice all cards into pages of 20, and set the current page to 1
-      setAllCards(response);
-      setDisplayedCards(Spells.slice(0, SPELLS_PER_PAGE));
+      // Set all spells gathered, slice all spells into pages of 30, and set the current page to 1
+      setAllSpells(spellJson.results || []);
+      setDisplayedSpells((spellJson.results || []).slice(0, SPELLS_PER_PAGE));
       setCurrentPage(1);
 
     } catch (error) {
-      // Display Scryfall error and leave cards as empty arrays
-      console.error('Scryfall error:', error);
-      setAllCards([]);
-      setDisplayedCards([]);
+      // Display API error and leave cards as empty arrays
+      console.error('DND API error:', error);
+      setAllSpells([]);
+      setDisplayedSpells([]);
     } finally {
       // End loading when finished the search
       setLoading(false);
@@ -50,19 +49,20 @@ const Spells = () => {
   };
 
   const goToPage = (page: number) => {
-    // Set the indexes of the cards to be displayed (from the entire list) per page
-    // e.g. If page = 2, startIndex = 20, endIndex = 40, which is the next 20 cards after page 1
-    const startIndex = (page - 1) * CARDS_PER_PAGE;
-    const endIndex = startIndex + CARDS_PER_PAGE;
+    // Set the indexes of the spells to be displayed (from the entire list) per page
+    // e.g. If page = 2, startIndex = 30, endIndex = 60, which is the next 30 spells after page 1
+    const startIndex = (page - 1) * SPELLS_PER_PAGE;
+    const endIndex = startIndex + SPELLS_PER_PAGE;
 
-    // Set the cards to be displayed on the current page based on the indexes and set the current page to the function input
-    setDisplayedCards(allCards.slice(startIndex, endIndex));
+    // Set the spells to be displayed on the current page based on the indexes and set the current page to the function input
+    setDisplayedSpells(allSpells.slice(startIndex, endIndex));
     setCurrentPage(page);
   };
-  
-  // Check if there are more pages to display based on the current page and the total number of cards
-  const hasNextPage = currentPage * CARDS_PER_PAGE < allCards.length;
-  const hasPrevPage = currentPage > 1;
+
+  // Check if there are more pages to display based on the current page and the total number of spells
+  const totalPages = Math.ceil(allSpells.length / SPELLS_PER_PAGE);
+  const hasNextPage = Array.isArray(allSpells) && currentPage < totalPages;
+  const hasPrevPage = Array.isArray(allSpells) && currentPage > 1;
 
   return (
     // Main background view which can be scrolled.
@@ -80,7 +80,7 @@ const Spells = () => {
         <View className="mx-auto px-4 py-3 rounded-full dark:bg-dark-200 bg-light-200 mb-4">
           <View className="flex-row items-center self-stretch w-full justify-center">
               <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
-              MTG Cards
+              D&D Spells
               </Text>
               <SignOutButton />
           </View>
@@ -96,17 +96,15 @@ const Spells = () => {
               onSubmitEditing={handleSearch}>
               </TextInput>
               <Pressable onPress={handleSearch}>
-                <Image source={icons.search}></Image>
+                <Image source={icons.search} className='size-8'></Image>
               </Pressable>
           </View>
         </View>
 
-        {/* Box that encapsulates displayed cards */}
+        {/* Box that encapsulates displayed spells */}
         <View className="mt-2 px-4 py-3 rounded-3xl dark:bg-dark-200 bg-light-200 mb-1">
-          <Text className="text-xl dark:text-primary text-dark-100 font-bold">Cards</Text>
+          <Text className="text-xl dark:text-primary text-dark-100 font-bold">Spells</Text>
           <View className="h-0.5 bg-dark-100 dark:bg-primary my-4"></View>
-          
-          <View>
           
           {/* If loading, display animated loading symbol */}
           {loading ? (
@@ -114,20 +112,20 @@ const Spells = () => {
           ) : (
             <ScrollView>
 
-              {/* Display cards if any are returned, else alert user no cards found */}
-              {displayedCards.length > 0 ? (
-                displayedCards.map((card) => (
-                  <View key={card.id} className="mb-5 items-center">
+              {/* Display spells if any are returned, else alert user no spells found */}
+              {displayedSpells.length > 0 ? (
+                displayedSpells.map((spell, index) => (
+                  <View key={spell.id || index} className="mb-5">
 
-                    {/* Pressable card image redirects to card details page */}
-                    <Pressable onPress={() => router.push(`/cards/${card.id}`)}>
-                      <Image source={{ uri: card.image_uris.normal }} className="w-[223px] h-[310px] rounded-xl"/>
+                    {/* Pressable spell name redirects to spell details page */}
+                    <Pressable className='flex-row items-center'>
+                      <Image source={icons.wand} className='size-6 mr-3'></Image>
+                      <Text className="text-xl font-bold text-left dark:text-primary text-dark-100">{spell.name}</Text>
                     </Pressable>
-                    <Text className="mt-1 text-xl font-bold text-center dark:text-primary text-dark-100">{card.name}</Text>
                   </View>
                 ))
               ) : (
-                searched && <Text className="text-xl dark:text-primary text-dark-100">No cards found.</Text>
+                searched && <Text className="text-xl dark:text-primary text-dark-100">No spells found.</Text>
               )}
             </ScrollView>
           )}
@@ -149,8 +147,13 @@ const Spells = () => {
                 <Text className="text-primary text-xl">→</Text>
                 </Pressable>
               )}
+
             </View>
-          </View>
+
+            {(hasNextPage || hasPrevPage) && (
+              <Text className='mt-2 text-xl dark:text-primary text-dark-100 text-center'>Page {currentPage} of {totalPages}</Text>
+            )}
+
         </View>
       </ScrollView>
     </View>

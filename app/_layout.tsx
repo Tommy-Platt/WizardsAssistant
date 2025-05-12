@@ -11,6 +11,10 @@ export default function RootLayout() {
           name="(tabs)"
           options={ { headerShown: false } }
         />
+        <Stack.Screen 
+          name="(dnd)/spells"
+          options={ { headerShown: false } }
+        />
         <Stack.Screen
         name="(auth)/index"
         options={{ headerShown: false }} 

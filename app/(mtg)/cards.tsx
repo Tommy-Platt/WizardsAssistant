@@ -94,7 +94,7 @@ const cards = () => {
               onSubmitEditing={handleSearch}>
               </TextInput>
               <Pressable onPress={handleSearch}>
-                <Image source={icons.search} className='size-8'></Image>
+                <Image accessibilityLabel="Search" accessibilityHint="Searches for a card" source={icons.search} className='size-8'></Image>
               </Pressable>
           </View>
         </View>
@@ -118,10 +118,10 @@ const cards = () => {
                   <View key={card.id} className="mb-5 items-center">
 
                     {/* Pressable card image redirects to card details page */}
-                    <Pressable onPress={() => router.push(`/cards/${card.id}`)}>
+                    <Pressable onPress={() => router.push(`/cards/${card.id}`)} accessibilityHint="An image of a card">
                       <Image source={{ uri: card.image_uris.normal }} className="w-[223px] h-[310px] rounded-xl"/>
+                      <Text className="mt-1 text-xl font-bold text-center dark:text-primary text-dark-100">{card.name}</Text>
                     </Pressable>
-                    <Text className="mt-1 text-xl font-bold text-center dark:text-primary text-dark-100">{card.name}</Text>
                   </View>
                 ))
               ) : (

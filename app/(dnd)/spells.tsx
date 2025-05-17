@@ -118,7 +118,7 @@ const Spells = () => {
                   <View key={spell.id || index} className="mb-5">
 
                     {/* Pressable spell name redirects to spell details page */}
-                    <Pressable className='flex-row items-center'>
+                    <Pressable className='flex-row items-center' onPress={() => router.push(`./spells/${spell.index}`)}>
                       <Image source={icons.wand} className='size-6 mr-3'></Image>
                       <Text className="text-xl font-bold text-left dark:text-primary text-dark-100">{spell.name}</Text>
                     </Pressable>

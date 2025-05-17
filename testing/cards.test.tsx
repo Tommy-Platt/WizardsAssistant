@@ -1,5 +1,5 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react-native';
-import Cards from './cards';
+import Cards from '../app/(mtg)/cards';
 import { useRouter } from 'expo-router';
 import axios from 'axios';
 

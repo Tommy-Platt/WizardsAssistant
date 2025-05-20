@@ -89,13 +89,13 @@ const Spells = () => {
         <View className="mx-auto px-4 py-1 rounded-full dark:bg-dark-200 bg-light-200 mt-2">
           <View className="flex-row items-center self-stretch w-full justify-center">
               <TextInput className="text-2xl dark:text-primary text-dark-100 font-regular flex-1"
-              placeholder="Enter card name"
+              placeholder="Enter spell name"
               placeholderTextColor="#A0A0A0"
               value={query}
               onChangeText={setQuery}
               onSubmitEditing={handleSearch}>
               </TextInput>
-              <Pressable onPress={handleSearch}>
+              <Pressable onPress={handleSearch} accessibilityHint='Searches for a spell'>
                 <Image source={icons.search} className='size-8'></Image>
               </Pressable>
           </View>
@@ -118,7 +118,7 @@ const Spells = () => {
                   <View key={spell.id || index} className="mb-5">
 
                     {/* Pressable spell name redirects to spell details page */}
-                    <Pressable className='flex-row items-center' onPress={() => router.push(`./spells/${spell.index}`)}>
+                    <Pressable className='flex-row items-center' onPress={() => router.push(`./spells/${spell.index}`)} accessibilityHint="Spell name">
                       <Image source={icons.wand} className='size-6 mr-3'></Image>
                       <Text className="text-xl font-bold text-left dark:text-primary text-dark-100">{spell.name}</Text>
                     </Pressable>

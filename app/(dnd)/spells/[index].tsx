@@ -151,7 +151,7 @@ const SpellDetails = () => {
               <Text className="text-lg text-accent">Attack/Save</Text>
 
               {(spell.attack_type || spell.dc?.dc_type?.name) ? (
-                <Text className="text-base dark:text-light-100 text-dark-200 mt-1">
+                <Text className="text-base dark:text-light-100 text-dark-200 mt-1 capitalize">
                   {spell.attack_type ? spell.attack_type : spell.dc?.dc_type?.name}
                 </Text>
               ) : (

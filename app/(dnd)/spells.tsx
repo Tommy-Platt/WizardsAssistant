@@ -151,7 +151,7 @@ const Spells = () => {
             </View>
 
             {(hasNextPage || hasPrevPage) && (
-              <Text className='mt-2 text-xl dark:text-primary text-dark-100 text-center'>Page {currentPage} of {totalPages}</Text>
+              <Text className='mt-2 text-xl dark:text-primary text-dark-100 text-center' accessibilityHint='Page numbers'>Page {currentPage} of {totalPages}</Text>
             )}
 
         </View>

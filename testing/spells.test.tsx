@@ -7,40 +7,11 @@ import axios from 'axios';
 const mockSpell = {
   "index": "acid-arrow",
   "name": "Acid Arrow",
-  "desc": [
-    "A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much of the initial damage and no damage at the end of its next turn."
-  ],
-  "higher_level": [
-    "When you cast this spell using a spell slot of 3rd level or higher, the damage (both initial and later) increases by 1d4 for each slot level above 2nd."
-  ],
-  "range": "90 feet",
-  "components": [
-    "V",
-    "S",
-    "M"
-  ],
-  "material": "Powdered rhubarb leaf and an adder's stomach.",
-  "duration": "Instantaneous",
-  "casting_time": "1 action",
-  "level": 2,
-  "attack_type": "ranged",
-  "damage": {
-    "damage_type": {
-      "index": "acid",
-      "name": "Acid",
-      "url": "/api/2014/damage-types/acid"
-    }
-  },
-  "school": {
-    "index": "evocation",
-    "name": "Evocation",
-    "url": "/api/2014/magic-schools/evocation"
-  }
 };
 
 (axios.get as jest.Mock).mockResolvedValue({
   data: {
-    data: [mockSpell]
+    results: [mockSpell]
   }
 });
 
@@ -64,13 +35,177 @@ test('Searches for Acid Arrow spell and presses it to redirect', async () => {
 
 });
 
+test('Searches for term with > 30 results to test page navigation', async () => {
+  const mockPush = jest.fn();
+  (useRouter as jest.Mock).mockReturnValue({ push: mockPush });
+
+  (axios.get as jest.Mock).mockResolvedValue({
+    data: {
+      results: [
+        {
+          "index": "aa",
+          "name": "AA",
+        },
+        {
+          "index": "ab",
+          "name": "AB",
+        },
+        {
+          "index": "ac",
+          "name": "AC",
+        },
+        {
+          "index": "ad",
+          "name": "AD",
+        },
+        {
+          "index": "ae",
+          "name": "AE",
+        },
+        {
+          "index": "af",
+          "name": "AF",
+        },
+        {
+          "index": "ag",
+          "name": "AG",
+        },
+        {
+          "index": "ah",
+          "name": "AH",
+        },
+        {
+          "index": "ai",
+          "name": "AI",
+        },
+        {
+          "index": "aj",
+          "name": "AJ",
+        },
+        {
+          "index": "ak",
+          "name": "AK",
+        },
+        {
+          "index": "al",
+          "name": "AL",
+        },
+        {
+          "index": "am",
+          "name": "AM",
+        },
+        {
+          "index": "an",
+          "name": "AN",
+        },
+        {
+          "index": "ao",
+          "name": "AO",
+        },
+        {
+          "index": "ap",
+          "name": "AP",
+        },
+        {
+          "index": "aq",
+          "name": "AQ",
+        },
+        {
+          "index": "ar",
+          "name": "AR",
+        },
+        {
+          "index": "as",
+          "name": "AS",
+        },
+        {
+          "index": "at",
+          "name": "AT",
+        },
+        {
+          "index": "au",
+          "name": "AU",
+        },
+        {
+          "index": "av",
+          "name": "AV",
+        },
+        {
+          "index": "aw",
+          "name": "AW",
+        },
+        {
+          "index": "ax",
+          "name": "AX",
+        },
+        {
+          "index": "ay",
+          "name": "AY",
+        },
+        {
+          "index": "az",
+          "name": "AZ",
+        },
+        {
+          "index": "aaa",
+          "name": "AAA",
+        },
+        {
+          "index": "aab",
+          "name": "AAB",
+        },
+        {
+          "index": "aac",
+          "name": "AAC",
+        },
+        {
+          "index": "aad",
+          "name": "AAD",
+        },
+        {
+          "index": "aae",
+          "name": "AAE",
+        },
+        {
+          "index": "aaf",
+          "name": "AAF",
+        },
+        {
+          "index": "aag",
+          "name": "AAG",
+        },
+        {
+          "index": "aah",
+          "name": "AAH",
+        },
+        {
+          "index": "aai",
+          "name": "AAI",
+        },
+      ]
+    }
+  });
+
+  render(<Spells />);
+
+  fireEvent.changeText(screen.getByPlaceholderText('Enter spell name'), 'a');
+
+  fireEvent.press(screen.getByAccessibilityHint('Searches for a spell'));
+
+  const results = await waitFor(() =>
+    screen.getByAccessibilityHint('Page numbers')
+  );
+
+  expect(results).toBeTruthy();
+});
+
 test('Searches for non-existent spell to check error handling', async () => {
   const mockPush = jest.fn();
   (useRouter as jest.Mock).mockReturnValue({ push: mockPush });
 
   (axios.get as jest.Mock).mockResolvedValue({
     data: {
-      data: []
+      results: []
     }
   });
 
@@ -84,4 +219,5 @@ test('Searches for non-existent spell to check error handling', async () => {
     screen.getByText('No spells found.')
   );
   expect(results).toBeTruthy();
+
 });

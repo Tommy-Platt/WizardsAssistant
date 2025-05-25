@@ -25,7 +25,7 @@ const Spells = () => {
     Keyboard.dismiss();
   
     try {
-      // Fetching cards from Scryfall API using the search query
+      // Fetching spells from D&D 5E API using the search query
       const response = await axios.get(
         `https://www.dnd5eapi.co/api/2014/spells/?name=${encodeURIComponent(query)}`
       );
@@ -42,6 +42,7 @@ const Spells = () => {
       console.error('DND API error:', error);
       setAllSpells([]);
       setDisplayedSpells([]);
+      
     } finally {
       // End loading when finished the search
       setLoading(false);

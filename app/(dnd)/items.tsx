@@ -25,9 +25,9 @@ const Items = () => {
     Keyboard.dismiss();
   
     try {
-      // Fetching cards from Open 5E API using the search query
+      // Fetching items from Open 5E API using the search query
       const response = await axios.get(
-        `https://api.open5e.com/v1/magicitems/?search=${encodeURIComponent(query)}`
+        `https://www.dnd5eapi.co/api/2014/equipment/?name=${encodeURIComponent(query)}`
       );
       
       const itemJson = response.data;
@@ -38,7 +38,7 @@ const Items = () => {
       setCurrentPage(1);
 
     } catch (error) {
-      // Display API error and leave cards as empty arrays
+      // Display API error and leave items as empty arrays
       console.error('Open 5E API error:', error);
       setallItems([]);
       setDisplayedItems([]);
@@ -96,7 +96,7 @@ const Items = () => {
               onChangeText={setQuery}
               onSubmitEditing={handleSearch}>
               </TextInput>
-              <Pressable onPress={handleSearch} accessibilityHint='Searches for a item'>
+              <Pressable onPress={handleSearch} accessibilityHint='Searches for an item'>
                 <Image source={icons.search} className='size-8'></Image>
               </Pressable>
           </View>
@@ -133,7 +133,7 @@ const Items = () => {
 
             <View className="flex-row justify-center mt-5">
 
-              {/* Previous page button loads the cards on the previous page */}
+              {/* Previous page button loads the items on the previous page */}
               {hasPrevPage && (
                 <Pressable className="p-4 rounded-xl mx-2 bg-accent" onPress={() => goToPage(currentPage - 1)}>
 
@@ -142,7 +142,7 @@ const Items = () => {
                 </Pressable>
               )}
 
-              {/* Next page button loads the cards on the next page */}
+              {/* Next page button loads the items on the next page */}
               {hasNextPage && (
                 <Pressable className="p-4 rounded-xl mx-2 bg-accent" onPress={() => goToPage(currentPage + 1)}>
                 <Text className="text-primary text-xl">→</Text>

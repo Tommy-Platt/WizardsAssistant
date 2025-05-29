@@ -38,7 +38,7 @@ const Spells = () => {
       setCurrentPage(1);
 
     } catch (error) {
-      // Display API error and leave cards as empty arrays
+      // Display API error and leave spells as empty arrays
       console.error('DND API error:', error);
       setAllSpells([]);
       setDisplayedSpells([]);

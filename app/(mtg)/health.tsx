@@ -1,12 +1,82 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, ScrollView, Pressable } from 'react-native'
+import React, { useState } from 'react'
 
-const health = () => {
+const Health = () => {
+
+  const startingHealth = 40; // Will change later
+
+  const playerCount = 4; // Will change later
+  const [health, setHealth] = useState(Array(playerCount).fill(startingHealth)); // Each array index filled with starting health
+
+  const [size, setSize] = useState({ width: 0, height: 0 }); // Size of pressable box is required for the components to work properly
+
+  // Layout of boxes is manually determined as React Native fails to measure Pressable components correctly
+  const handleLayout = (event: any) => {
+    const { width, height } = event.nativeEvent.layout;
+    setSize({ width, height });
+  };
+
+  const handlePress = (index: number) => (event: any) => {
+    const { locationY } = event.nativeEvent; // Y location corresponds to left or right of the health box
+
+    setHealth((prev) => {
+      // Update health based on pressing the left or right side of the box
+      return prev.map((health, i) => {
+        if (i !== index) return health; // Health stays the same for other players
+        if (!size.height) return health; // Prevent update if height is not measured yet
+        if (locationY < size.height / 2) {
+          return health + 1;
+        } else {
+          return health - 1;
+        }
+      });
+    });
+  };
+
   return (
-    <View>
-      <Text>health</Text>
+    <View className="flex-1 dark:bg-dark-100 bg-primary items-center justify-center">
+      <ScrollView className="flex-1 px-5" 
+            showsVerticalScrollIndicator={true}
+            contentContainerStyle={{minHeight: "100%", paddingBottom: 10}}>
+        <View className="flex-1 flex-wrap flex-row mt-6">
+
+          <View className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
+            <Pressable onPress={handlePress(0)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
+              <Text className="text-6xl text-primary rotate-90">+ {health[0]} -</Text>
+            </Pressable>
+          </View>
+
+          <View className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
+            <Pressable onPress={handlePress(1)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
+              <Text className="text-6xl text-primary -rotate-90">- {health[1]} +</Text>
+            </Pressable>
+          </View>
+
+          <View className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
+            <Pressable onPress={handlePress(2)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
+              <Text className="text-6xl text-primary rotate-90">+ {health[2]} -</Text>
+            </Pressable>
+          </View>
+
+          <View className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
+            <Pressable onPress={handlePress(3)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
+              <Text className="text-6xl text-primary -rotate-90">- {health[3]} +</Text>
+            </Pressable>
+          </View>
+          
+        </View>
+        <View className='flex-row items-center justify-center'>
+          <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">2</Text>
+          <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">3</Text>
+          <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">4</Text>
+          <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">5</Text>
+          <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">6</Text>
+          <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">Reset</Text>
+        </View>
+      </ScrollView>
     </View>
+    
   )
 }
 
-export default health
+export default Health

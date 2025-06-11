@@ -27,7 +27,7 @@ const Items = () => {
     try {
       // Fetching items from Open 5E API using the search query
       const response = await axios.get(
-        `https://www.dnd5eapi.co/api/2014/equipment/?name=${encodeURIComponent(query)}`
+        `https://api.open5e.com/v1/magicitems/?search=${encodeURIComponent(query)}`
       );
       
       const itemJson = response.data;

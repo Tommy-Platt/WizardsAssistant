@@ -1,5 +1,6 @@
-import { View, Text, ScrollView, Pressable, Modal, Image, Animated } from 'react-native'
+import { View, Text, ScrollView, Pressable, Modal, Image, Animated, ImageBackground } from 'react-native'
 import { icons } from "@/constants/icons";
+import { images } from "@/constants/images";
 import React, { useState, useRef } from 'react'
 
 const Health = () => {
@@ -92,34 +93,46 @@ const Health = () => {
           
           <Animated.View style={{ opacity: opacity1 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
             <Pressable onPressIn={() => fade(opacity1, 0.5)} onPressOut={() => fade(opacity1, 1)} onPress={handlePress(0)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
-              <Text className="text-6xl text-primary rotate-90">+ {health[0]} -</Text>
+              <Text className="text-6xl dark:text-primary text-dark-100 rotate-90">+ {health[0]} -</Text>
+                <View className="flex-row w-full justify-start items-center absolute">
+                  <Text className='text-xl dark:text-light-300 text-dark-300 rotate-90'>Player 1</Text>
+                </View>
             </Pressable>
           </Animated.View>
 
           <Animated.View style={{ opacity: opacity2 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
             <Pressable onPressIn={() => fade(opacity2, 0.5)} onPressOut={() => fade(opacity2, 1)} onPress={handlePress(1)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
-              <Text className="text-6xl text-primary -rotate-90">- {health[1]} +</Text>
+              <Text className="text-6xl dark:text-primary text-dark-100 -rotate-90">- {health[1]} +</Text>
+              <View className="flex-row w-full justify-end items-center absolute">
+                <Text className='text-xl dark:text-light-300 text-dark-300 -rotate-90'>Player 2</Text>
+              </View>
             </Pressable>
           </Animated.View>
 
           <Animated.View style={{ opacity: opacity3 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
             <Pressable onPressIn={() => fade(opacity3, 0.5)} onPressOut={() => fade(opacity3, 1)} onPress={handlePress(2)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
-              <Text className="text-6xl text-primary rotate-90">+ {health[2]} -</Text>
+              <Text className="text-6xl dark:text-primary text-dark-100 rotate-90">+ {health[2]} -</Text>
+              <View className="flex-row w-full justify-start items-center absolute">
+                <Text className='text-xl dark:text-light-300 text-dark-300 rotate-90'>Player 3</Text>
+              </View>
             </Pressable>
           </Animated.View>
 
           <Animated.View style={{ opacity: opacity4 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
             <Pressable onPressIn={() => fade(opacity4, 0.5)} onPressOut={() => fade(opacity4, 1)} onPress={handlePress(3)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
-              <Text className="text-6xl text-primary -rotate-90">- {health[3]} +</Text>
+              <Text className="text-6xl dark:text-primary text-dark-100 -rotate-90">- {health[3]} +</Text>
+              <View className="flex-row w-full justify-end items-center absolute">
+                <Text className='text-xl dark:text-light-300 text-dark-300 -rotate-90'>Player 4</Text>
+              </View>
             </Pressable>
           </Animated.View>
           
         </View>
         <View className='flex-row items-center justify-center'>
           <Pressable onPress={openModal}>
-            <View className="px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">
-              <Image source={icons.settings} className='size-10 color-accent'/>
-            </View>
+              <ImageBackground source={images.highlight} className="px-4 py-2 bg-accent rounded-xl mx-1 overflow-hidden">
+                <Image source={icons.settings} className='size-10'/>
+              </ImageBackground>
           </Pressable>
         </View>
 
@@ -131,8 +144,8 @@ const Health = () => {
             closeModal(); // Handle back button press
           }}
         >
-          <View className='flex-1 dark:bg-dark-300 bg-primary items-center justify-center opacity-90'>
-            <Text className='text-xl text-primary mb-6 mt-6'>Player Count</Text>
+          <View className='flex-1 dark:bg-dark-300 bg-light-300 items-center justify-center opacity-90'>
+            <Text className='text-xl dark:text-primary text-dark-100 mb-6 mt-6'>Player Count</Text>
             <View className='flex-row items-center justify-center mb-6'>
               <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">2</Text>
               <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">3</Text>
@@ -140,54 +153,85 @@ const Health = () => {
               <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">5</Text>
               <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">6</Text>
             </View>
-            <Text className='text-xl text-primary mb-6'>Commander damage</Text>
-            <Text className='text-primary text-xl'>Selected Player: Player {selectedPlayer + 1}</Text>
+            <Text className='text-xl dark:text-primary text-dark-100 mb-6'>Commander damage</Text>
             <View className='flex-row items-center justify-center mb-6'>
               <Pressable onPress={() => setSelectedPlayer(0)}>
-                <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">1</Text>
+                <Text
+                  className={`text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 rounded-xl mx-1 ${
+                    selectedPlayer === 0
+                      ? "bg-accent"
+                      : "bg-light-200 dark:bg-dark-200"
+                  }`}
+                >
+                  1
+                </Text>
               </Pressable>
               <Pressable onPress={() => setSelectedPlayer(1)}>
-                <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">2</Text>
+                <Text
+                  className={`text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 rounded-xl mx-1 ${
+                    selectedPlayer === 1
+                      ? "bg-accent"
+                      : "bg-light-200 dark:bg-dark-200"
+                  }`}
+                >
+                  2
+                </Text>
               </Pressable>
               <Pressable onPress={() => setSelectedPlayer(2)}>
-                <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">3</Text>
+                <Text
+                  className={`text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 rounded-xl mx-1 ${
+                    selectedPlayer === 2
+                      ? "bg-accent"
+                      : "bg-light-200 dark:bg-dark-200"
+                  }`}
+                >
+                  3
+                </Text>
               </Pressable>
               <Pressable onPress={() => setSelectedPlayer(3)}>
-                <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">4</Text>
+                <Text
+                  className={`text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 rounded-xl mx-1 ${
+                    selectedPlayer === 3
+                      ? "bg-accent"
+                      : "bg-light-200 dark:bg-dark-200"
+                  }`}
+                >
+                  4
+                </Text>
               </Pressable>
             </View>
             <View className="flex-1 flex-wrap flex-row mb-6">
         
               <Animated.View style={{ opacity: opacity1 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
                 <Pressable onPressIn={() => fade(opacity1, 0.5)} onPressOut={() => fade(opacity1, 1)} onPress={handleCommanderPress(0)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
-                  <Text className="text-6xl text-primary rotate-90">+ {commanderDamage[selectedPlayer][0]} -</Text>
+                  <Text className="text-6xl dark:text-primary text-dark-100 rotate-90">+ {commanderDamage[selectedPlayer][0]} -</Text>
                 </Pressable>
               </Animated.View>
 
               <Animated.View style={{ opacity: opacity2 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
                 <Pressable onPressIn={() => fade(opacity2, 0.5)} onPressOut={() => fade(opacity2, 1)} onPress={handleCommanderPress(1)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
-                  <Text className="text-6xl text-primary -rotate-90">- {commanderDamage[selectedPlayer][1]} +</Text>
+                  <Text className="text-6xl dark:text-primary text-dark-100 -rotate-90">- {commanderDamage[selectedPlayer][1]} +</Text>
                 </Pressable>
               </Animated.View>
 
               <Animated.View style={{ opacity: opacity3 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
                 <Pressable onPressIn={() => fade(opacity3, 0.5)} onPressOut={() => fade(opacity3, 1)} onPress={handleCommanderPress(2)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
-                  <Text className="text-6xl text-primary rotate-90">+ {commanderDamage[selectedPlayer][2]} -</Text>
+                  <Text className="text-6xl dark:text-primary text-dark-100 rotate-90">+ {commanderDamage[selectedPlayer][2]} -</Text>
                 </Pressable>
               </Animated.View>
 
               <Animated.View style={{ opacity: opacity4 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
                 <Pressable onPressIn={() => fade(opacity4, 0.5)} onPressOut={() => fade(opacity4, 1)} onPress={handleCommanderPress(3)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
-                  <Text className="text-6xl text-primary -rotate-90">- {commanderDamage[selectedPlayer][3]} +</Text>
+                  <Text className="text-6xl dark:text-primary text-dark-100 -rotate-90">- {commanderDamage[selectedPlayer][3]} +</Text>
                 </Pressable>
               </Animated.View>
               
             </View>
             
             <Pressable>
-              <View className='bg-accent p-3 rounded-xl mb-6'>
-                <Text className='text-xl dark:text-primary text-dark-100' onPress={closeModal}>Close</Text>
-              </View>
+              <ImageBackground source={images.highlight} className="px-4 py-4 bg-accent rounded-xl mx-1 mb-6 overflow-hidden">
+                <Text className='text-xl text-primary' onPress={closeModal}>Close</Text>
+              </ImageBackground>
             </Pressable>
 
           </View>

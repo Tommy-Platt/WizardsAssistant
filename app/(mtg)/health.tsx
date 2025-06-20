@@ -5,11 +5,13 @@ import React, { useState, useRef } from 'react'
 
 const Health = () => {
 
+  // Animated values for button opacity
   const opacity1 = useRef(new Animated.Value(1)).current;
   const opacity2 = useRef(new Animated.Value(1)).current;
   const opacity3 = useRef(new Animated.Value(1)).current;
   const opacity4 = useRef(new Animated.Value(1)).current;
  
+  // Fade animation for buttons when pressed
   const fade = (animatedValue: Animated.Value, toValue: number) => {
     Animated.timing(animatedValue, {
       toValue,
@@ -29,10 +31,17 @@ const Health = () => {
     setModalVisible(false);
   }
 
-  const startingHealth = 40; // Will change later
+  const [startingHealth, setStartingHealth] = useState<number>(20); // Customisable starting health for the players - default is 20
 
-  const playerCount = 4; // Will change later
+  const playerCount = 4; // Can be expanded in the future to support more players
+
   const [health, setHealth] = useState(Array(playerCount).fill(startingHealth)); // Each array index filled with starting health
+
+  const resetHealth = (newHealth: number) => {
+    setStartingHealth(newHealth); // Set the starting health value
+    setHealth(Array(playerCount).fill(newHealth)); // Fill the health array with the new starting health
+    setCommanderDamage(Array(playerCount).fill(null).map(() => Array(playerCount).fill(0))); // Reset commander damage
+  }
 
   const [size, setSize] = useState({ width: 0, height: 0 }); // Size of pressable box is required for the components to work properly
 
@@ -89,8 +98,10 @@ const Health = () => {
       <ScrollView className="flex-1 px-5" 
             showsVerticalScrollIndicator={true}
             contentContainerStyle={{minHeight: "100%", paddingBottom: 10}}>
+
         <View className="flex-1 flex-wrap flex-row mt-6">
           
+          {/* Player 1 health box */}
           <Animated.View style={{ opacity: opacity1 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
             <Pressable onPressIn={() => fade(opacity1, 0.5)} onPressOut={() => fade(opacity1, 1)} onPress={handlePress(0)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
               <Text className="text-6xl dark:text-primary text-dark-100 rotate-90">+ {health[0]} -</Text>
@@ -100,6 +111,7 @@ const Health = () => {
             </Pressable>
           </Animated.View>
 
+          {/* Player 2 health box */}
           <Animated.View style={{ opacity: opacity2 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
             <Pressable onPressIn={() => fade(opacity2, 0.5)} onPressOut={() => fade(opacity2, 1)} onPress={handlePress(1)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
               <Text className="text-6xl dark:text-primary text-dark-100 -rotate-90">- {health[1]} +</Text>
@@ -109,6 +121,7 @@ const Health = () => {
             </Pressable>
           </Animated.View>
 
+          {/* Player 3 health box */}
           <Animated.View style={{ opacity: opacity3 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
             <Pressable onPressIn={() => fade(opacity3, 0.5)} onPressOut={() => fade(opacity3, 1)} onPress={handlePress(2)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
               <Text className="text-6xl dark:text-primary text-dark-100 rotate-90">+ {health[2]} -</Text>
@@ -118,6 +131,7 @@ const Health = () => {
             </Pressable>
           </Animated.View>
 
+          {/* Player 4 health box */}
           <Animated.View style={{ opacity: opacity4 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
             <Pressable onPressIn={() => fade(opacity4, 0.5)} onPressOut={() => fade(opacity4, 1)} onPress={handlePress(3)} className='flex-1 items-center justify-center bg-light-200 dark:bg-dark-200 rounded-xl w-full'>
               <Text className="text-6xl dark:text-primary text-dark-100 -rotate-90">- {health[3]} +</Text>
@@ -128,6 +142,8 @@ const Health = () => {
           </Animated.View>
           
         </View>
+
+        {/* Settings button to open the modal for commander damage and reset */}
         <View className='flex-row items-center justify-center'>
           <Pressable onPress={openModal}>
               <ImageBackground source={images.highlight} className="px-4 py-2 bg-accent rounded-xl mx-1 overflow-hidden">
@@ -136,24 +152,73 @@ const Health = () => {
           </Pressable>
         </View>
 
+        {/* Pop-up menu for reset & commander damage */}
         <Modal
-          animationType="slide" // or "fade", "none"
-          transparent={true} // Make background transparent
+          animationType="slide"
+          transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
             closeModal(); // Handle back button press
           }}
         >
           <View className='flex-1 dark:bg-dark-300 bg-light-300 items-center justify-center opacity-90'>
-            <Text className='text-xl dark:text-primary text-dark-100 mb-6 mt-6'>Player Count</Text>
-            <View className='flex-row items-center justify-center mb-6'>
-              <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">2</Text>
-              <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">3</Text>
-              <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">4</Text>
-              <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">5</Text>
-              <Text className="text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 bg-light-200 dark:bg-dark-200 rounded-xl mx-1">6</Text>
+          
+            {/* Selection for the game's starting health. If-else logic for highlighting selected health. */}
+            <View className='dark:bg-dark-200 bg-light-200 rounded-xl px-4 py-2 mt-6 mb-2'>
+              <Text className='text-xl dark:text-primary text-dark-100'>Starting Health</Text>
             </View>
-            <Text className='text-xl dark:text-primary text-dark-100 mb-6'>Commander damage</Text>
+            <Text className='text-lg text-accent italic'>Warning: Resets the current game!</Text>
+            <View className='flex-row items-center justify-center mb-6'>
+              <Pressable onPress={() => resetHealth(20)}>
+                <Text
+                  className={`text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 rounded-xl mx-1 ${
+                    startingHealth === 20
+                      ? "bg-accent"
+                      : "bg-light-200 dark:bg-dark-200"
+                  }`}
+                >
+                  20
+                </Text>
+              </Pressable>
+              <Pressable onPress={() => resetHealth(25)}>
+                <Text
+                  className={`text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 rounded-xl mx-1 ${
+                    startingHealth === 25
+                      ? "bg-accent"
+                      : "bg-light-200 dark:bg-dark-200"
+                  }`}
+                >
+                  25
+                </Text>
+              </Pressable>
+              <Pressable onPress={() => resetHealth(30)}>
+                <Text
+                  className={`text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 rounded-xl mx-1 ${
+                    startingHealth === 30
+                      ? "bg-accent"
+                      : "bg-light-200 dark:bg-dark-200"
+                  }`}
+                >
+                  30
+                </Text>
+              </Pressable>
+              <Pressable onPress={() => resetHealth(40)}>
+                <Text
+                  className={`text-2xl dark:text-primary text-dark-100 font-bold px-4 py-2 rounded-xl mx-1 ${
+                    startingHealth === 40
+                      ? "bg-accent"
+                      : "bg-light-200 dark:bg-dark-200"
+                  }`}
+                >
+                  40
+                </Text>
+              </Pressable>
+            </View>
+
+            {/* Player selection for commander damage. If-else logic for highlighting the selected player */}
+            <View className='dark:bg-dark-200 bg-light-200 rounded-xl px-4 py-2 mb-6'>
+              <Text className='text-xl dark:text-primary text-dark-100'>Commander Damage</Text>
+            </View>
             <View className='flex-row items-center justify-center mb-6'>
               <Pressable onPress={() => setSelectedPlayer(0)}>
                 <Text
@@ -200,6 +265,9 @@ const Health = () => {
                 </Text>
               </Pressable>
             </View>
+
+            { /* Commander damage boxes for each player. Each box represents the damage taken from each respective player. */}
+            { /* Each box can be pressed to increase or decrease damage. */}
             <View className="flex-1 flex-wrap flex-row mb-6">
         
               <Animated.View style={{ opacity: opacity1 }} className="w-1/2 h-1/2 p-2" onLayout={handleLayout}>
@@ -228,6 +296,7 @@ const Health = () => {
               
             </View>
             
+            {/* Close button to close the modal */}
             <Pressable>
               <ImageBackground source={images.highlight} className="px-4 py-4 bg-accent rounded-xl mx-1 mb-6 overflow-hidden">
                 <Text className='text-xl text-primary' onPress={closeModal}>Close</Text>
@@ -235,12 +304,9 @@ const Health = () => {
             </Pressable>
 
           </View>
-
         </Modal>
-
       </ScrollView>
     </View>
-    
   )
 }
 

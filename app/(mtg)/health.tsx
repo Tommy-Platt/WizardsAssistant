@@ -145,7 +145,7 @@ const Health = () => {
 
         {/* Settings button to open the modal for commander damage and reset */}
         <View className='flex-row items-center justify-center'>
-          <Pressable onPress={openModal}>
+          <Pressable onPress={openModal} accessibilityHint='Pop up menu open button'>
               <ImageBackground source={images.highlight} className="px-4 py-2 bg-accent rounded-xl mx-1 overflow-hidden">
                 <Image source={icons.settings} className='size-10'/>
               </ImageBackground>
@@ -297,7 +297,7 @@ const Health = () => {
             </View>
             
             {/* Close button to close the modal */}
-            <Pressable>
+            <Pressable accessibilityHint='Pop up menu close button'>
               <ImageBackground source={images.highlight} className="px-4 py-4 bg-accent rounded-xl mx-1 mb-6 overflow-hidden">
                 <Text className='text-xl text-primary' onPress={closeModal}>Close</Text>
               </ImageBackground>

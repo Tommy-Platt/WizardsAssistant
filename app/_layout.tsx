@@ -47,6 +47,10 @@ export default function RootLayout() {
           name="(mtg)/health"
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="(dnd)/dice"
+          options={{ headerShown: false }}
+        />
         </Stack>
       </AuthProvider>
   );

@@ -45,7 +45,7 @@ const Dice = () => {
     else if (advantage === 'disadvantage') {
       
       roll1 = Math.floor(Math.random() * diceType) + 1;
-      roll2 += Math.floor(Math.random() * diceType) + 1;
+      roll2 = Math.floor(Math.random() * diceType) + 1;
 
       roll += Math.min(roll1, roll2);
       roll += modifier;
@@ -61,7 +61,7 @@ const Dice = () => {
       }
 
       roll += modifier;
-      alert(`${roll}`)
+      alert(`Roll: ${roll}`)
       
     }
   }
@@ -79,6 +79,7 @@ const Dice = () => {
                 labelField="label"
                 valueField="value"
                 value={advantage}
+                testID='advantageDropdown'
                 placeholder={advantage}
                 onChange={(item: { label: string; value: string }) => {
                   setAdvantage(item.value);
@@ -104,6 +105,7 @@ const Dice = () => {
             labelField="label"
             valueField="value"
             value={advantage}
+            testID='advantageDropdown'
             placeholder={advantage}
             onChange={(item: { label: string; value: string }) => {
               setAdvantage(item.value);
@@ -162,6 +164,7 @@ const Dice = () => {
         <TextInput className='px-5 py-3 bg-light-200 dark:bg-dark-200 rounded-xl mb-6 dark:text-primary text-dark-100 font-bold text-2xl'
           keyboardType="numeric"
           value={String(diceMultiplier)}
+          placeholder="Dice Multiplier"
           onChangeText={(text) => handleDiceMultiplier(Number(text))}
         />
 
@@ -169,6 +172,7 @@ const Dice = () => {
         <TextInput className='px-5 py-3 bg-light-200 dark:bg-dark-200 rounded-xl mb-6 dark:text-primary text-dark-100 font-bold text-2xl'
           keyboardType="numeric"
           value={String(modifier)}
+          placeholder="Modifier"
           onChangeText={(text) => setModifier(Number(text))}
         />
 

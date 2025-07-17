@@ -1,13 +1,15 @@
 // Homepage/Settings menu for the app
-import { Text, View, Image, ScrollView, TouchableWithoutFeedback, Switch, Appearance, useColorScheme, Pressable } from "react-native";
+import { Text, View, Image, ScrollView, TouchableWithoutFeedback, Switch, Appearance, useColorScheme } from "react-native";
 import React, { useState } from "react";
 import { icons } from "@/constants/icons";
 import SignOutButton from "@/contexts/sign-out";
+import { FEATURES } from '@/constants/features';
+import { useFeatures } from '@/contexts/FeatureContext';
 
 export default function Index() {
-  const [checkedStates, setCheckedStates] = useState([false, false, false, false, false, false]);
   const [isEnabled, setIsEnabled] = useState(false);
   const colorScheme = useColorScheme();
+  const { enabledFeatures, toggleFeature } = useFeatures();
   
   return (
 
@@ -45,7 +47,7 @@ export default function Index() {
               }}
             />
           </View>
-
+          
           {/* Button to reset to system default. This will set the color scheme to null, which is the system default. */}
           <View>
             <TouchableWithoutFeedback onPress={() => {
@@ -68,113 +70,24 @@ export default function Index() {
           <View className="h-0.5 bg-dark-100 dark:bg-primary my-4"></View>
           <View>
             
-            {/* D&D Items listing */}   
-            <View className="flex-row items-center my-2">
-              <View className="flex-1">
-                <Text className="text-lg dark:text-primary text-dark-100">D&D Items</Text>
-                <Text className="text-base dark:text-light-100 text-dark-200 mt-1">Search all D&D 5E (base game) items!</Text>
+            {/* Gets all features and lists them with an option to toggle their enabled state */}
+            {FEATURES.map((feature) => (
+              <View
+                key={feature.id}
+                className="flex-row items-center my-2"
+              >
+                <View className="flex-1">
+                  <Text className="text-lg dark:text-primary text-dark-100">{feature.name}</Text>
+                  <Text className="text-base dark:text-light-100 text-dark-200 mt-1">{feature.description}</Text>
+                </View>
+                  <Switch
+                    trackColor={{false: '#B5B5B5', true: '#AF52DE'}}
+                    thumbColor={isEnabled ? '#B416B1' : '#E5E5E5'}
+                    value={enabledFeatures[feature.id]}
+                    onValueChange={() => toggleFeature(feature.id)}
+                  />
               </View>
-              <TouchableWithoutFeedback onPress={() => {
-                const newStates = [...checkedStates];
-                newStates[0] = !newStates[0];
-                setCheckedStates(newStates);
-              }}>
-                <Image 
-                  source={checkedStates[0] ? icons.checkbox : icons.checkboxUnchecked} 
-                  className="w-6 h-6" 
-                />
-              </TouchableWithoutFeedback>
-            </View>
-
-            {/* D&D Spells listing */}
-            <View className="flex-row items-center my-2">
-              <View className="flex-1">
-                <Text className="text-lg dark:text-primary text-dark-100">D&D Spells</Text>
-                <Text className="text-base dark:text-light-100 text-dark-200 mt-1">Search all D&D 5E (base game) spells!</Text>
-              </View>
-              <TouchableWithoutFeedback onPress={() => {
-                const newStates = [...checkedStates];
-                newStates[1] = !newStates[1];
-                setCheckedStates(newStates);
-              }}>
-                <Image 
-                  source={checkedStates[1] ? icons.checkbox : icons.checkboxUnchecked} 
-                  className="w-6 h-6" 
-                />
-              </TouchableWithoutFeedback>
-            </View>
-
-            {/* D&D Session Summary listing */}
-            <View className="flex-row items-center my-2">
-              <View className="flex-1">
-                <Text className="text-lg dark:text-primary text-dark-100">D&D Session Summaries</Text>
-                <Text className="text-base dark:text-light-100 text-dark-200 mt-1">Document your latest campaign session.</Text>
-              </View>
-              <TouchableWithoutFeedback onPress={() => {
-                const newStates = [...checkedStates];
-                newStates[2] = !newStates[2];
-                setCheckedStates(newStates);
-              }}>
-                <Image 
-                  source={checkedStates[2] ? icons.checkbox : icons.checkboxUnchecked} 
-                  className="w-6 h-6" 
-                />
-              </TouchableWithoutFeedback>
-            </View>
-
-            {/* D&D Dice Roller listing */}
-            <View className="flex-row items-center my-2">
-              <View className="flex-1">
-                <Text className="text-lg dark:text-primary text-dark-100">D&D Dice Roller</Text>
-                <Text className="text-base dark:text-light-100 text-dark-200 mt-1">Custom options for dice rolling.</Text>
-              </View>
-              <TouchableWithoutFeedback onPress={() => {
-                const newStates = [...checkedStates];
-                newStates[3] = !newStates[3];
-                setCheckedStates(newStates);
-              }}>
-                <Image 
-                  source={checkedStates[3] ? icons.checkbox : icons.checkboxUnchecked} 
-                  className="w-6 h-6" 
-                />
-              </TouchableWithoutFeedback>
-            </View>
-
-            {/* MTG Cards listing */}
-            <View className="flex-row items-center my-2">
-              <View className="flex-1">
-                <Text className="text-lg dark:text-primary text-dark-100">MTG Cards</Text>
-                <Text className="text-base dark:text-light-100 text-dark-200 mt-1">Search all MTG cards!</Text>
-              </View>
-              <TouchableWithoutFeedback onPress={() => {
-                const newStates = [...checkedStates];
-                newStates[4] = !newStates[4];
-                setCheckedStates(newStates);
-              }}>
-                <Image 
-                  source={checkedStates[4] ? icons.checkbox : icons.checkboxUnchecked} 
-                  className="w-6 h-6" 
-                />
-              </TouchableWithoutFeedback>
-            </View>
-
-            {/* MTG Health Tracker listing */}
-            <View className="flex-row items-center my-2">
-              <View className="flex-1">
-                <Text className="text-lg dark:text-primary text-dark-100">Player Health Tracker</Text>
-                <Text className="text-base dark:text-light-100 text-dark-200 mt-1">Track HP for MTG. Supports multiplayer.</Text>
-              </View>
-              <TouchableWithoutFeedback onPress={() => {
-                const newStates = [...checkedStates];
-                newStates[5] = !newStates[5];
-                setCheckedStates(newStates);
-              }}>
-                <Image 
-                  source={checkedStates[5] ? icons.checkbox : icons.checkboxUnchecked} 
-                  className="w-6 h-6" 
-                />
-              </TouchableWithoutFeedback>
-            </View>
+            ))}
             
           </View>
         </View>

@@ -11,6 +11,7 @@ const Dice = () => {
   const [diceType, setDiceType] = useState(20);
   const [diceMultiplier, setDiceMultiplier] = useState(1);
 
+  // Prevents the dice multiplier from exceeding 100
   const handleDiceMultiplier = (value: number) => {
     if (value > 100) {
       setDiceMultiplier(1);
@@ -28,11 +29,12 @@ const Dice = () => {
 
     var roll = 0;
 
+    // Used for advantage/disadvantage rolls
     var roll1 = 0;
     var roll2 = 0;
 
     if (advantage === 'advantage') {
-      
+      // Rolls two dice and take the highest one
       roll1 = Math.floor(Math.random() * diceType) + 1;
       roll2 += Math.floor(Math.random() * diceType) + 1;
 
@@ -43,7 +45,7 @@ const Dice = () => {
     }
 
     else if (advantage === 'disadvantage') {
-      
+      // Rolls two dice and take the lowest one
       roll1 = Math.floor(Math.random() * diceType) + 1;
       roll2 = Math.floor(Math.random() * diceType) + 1;
 
@@ -54,7 +56,7 @@ const Dice = () => {
     }
 
     else if (advantage === 'none') {
-    
+      // Rolls the dice based on the selected type and multiplier
       for (let i = 0; i < diceMultiplier; i++) {
 
         roll += Math.floor(Math.random() * diceType) + 1;
@@ -66,6 +68,7 @@ const Dice = () => {
     }
   }
 
+  // In order for lightmode/darkmode to work for the custom dropdown, an if-else statement is used with custom styling for each
   const DropdownColour = ({colorScheme}: any) => {
       if(colorScheme === 'light') {
           return (
@@ -137,12 +140,13 @@ const Dice = () => {
         <View className="mx-auto px-4 py-3 rounded-full dark:bg-dark-200 bg-light-200 mb-6">
           <View className="flex-row items-center self-stretch w-full justify-center">
               <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
-                D&D Spells
+                D&D Dice Roller
               </Text>
               <SignOutButton />
           </View>
         </View>
 
+        {/* Dice rolling types are displayed by mapping over an array. Includes if-else logic for selected type styling. */}
         <Text className='text-xl dark:text-primary text-dark-100 mb-2'>Dice Type</Text>
         <View className='flex-row items-center justify-center mb-6'>
           {[4, 6, 8, 10, 12, 20, 100].map((type) => (
@@ -160,6 +164,7 @@ const Dice = () => {
           ))}
         </View>
 
+        {/* Numerical input for multiplying dice */}
         <Text className='text-xl dark:text-primary text-dark-100 mb-2'>Dice Multiplier</Text>
         <TextInput className='px-5 py-3 bg-light-200 dark:bg-dark-200 rounded-xl mb-6 dark:text-primary text-dark-100 font-bold text-2xl'
           keyboardType="numeric"
@@ -168,6 +173,7 @@ const Dice = () => {
           onChangeText={(text) => handleDiceMultiplier(Number(text))}
         />
 
+        {/* Numerical input for modifier */}
         <Text className='text-xl dark:text-primary text-dark-100 mb-2'>Modifier</Text>
         <TextInput className='px-5 py-3 bg-light-200 dark:bg-dark-200 rounded-xl mb-6 dark:text-primary text-dark-100 font-bold text-2xl'
           keyboardType="numeric"
@@ -176,11 +182,13 @@ const Dice = () => {
           onChangeText={(text) => setModifier(Number(text))}
         />
 
+        {/* Dropdown for advantage/disadvantage */}
         <Text className='text-xl dark:text-primary text-dark-100 mb-2'>Advantage</Text>
         <View className='dark:bg-dark-100 bg-primary'>
           <DropdownColour colorScheme={useColorScheme()} />
         </View>
 
+        {/* Roll button */}
         <Pressable onPress={() => {handleRoll()}}>
           <ImageBackground source={images.highlight} className="px-4 py-4 bg-accent rounded-full mx-1 mb-6 overflow-hidden items-center">
             <Text className='text-xl text-primary items'>Roll!</Text>

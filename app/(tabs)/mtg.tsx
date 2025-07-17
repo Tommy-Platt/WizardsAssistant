@@ -1,12 +1,14 @@
 // MTG menu for the app
 import { Text, View, Image, ScrollView, Pressable } from "react-native";
 import { icons } from "@/constants/icons";
-import { useRouter } from "expo-router";
 import { images } from "@/constants/images";
 import SignOutButton from "@/contexts/sign-out";
+import { Link } from 'expo-router';
+import { FEATURES } from '@/constants/features';
+import { useFeatures } from '@/contexts/FeatureContext';
 
 export default function MTG() {
-  const router = useRouter();
+  const { enabledFeatures } = useFeatures();
 
   return (
     // Main background view which can be scrolled.
@@ -38,27 +40,26 @@ export default function MTG() {
           <View className="h-0.5 bg-dark-100 dark:bg-primary my-4"></View>
           <View>
             
-            {/* MTG Cards listing */}
-            <Pressable onPress={() => router.push('/(mtg)/cards')}>
-                <View className="flex-row items-center my-2">
-                <Image source={icons.mtgCards} className="w-6 h-6 mr-4"></Image>
-                  <View className="flex-1">
-                    <Text className="text-lg dark:text-primary text-dark-100">MTG Cards</Text>
-                    <Text className="text-base dark:text-light-100 text-dark-200 mt-1">Search all MTG cards!</Text>
-                  </View>
-                </View>
-            </Pressable>
-
-            {/* MTG Health Tracker listing */}
-            <Pressable onPress={() => router.push('/(mtg)/health')}>
-                <View className="flex-row items-center my-2">
-                <Image source={icons.mtgHealth} className="w-6 h-6 mr-4"></Image>
-                  <View className="flex-1">
-                    <Text className="text-lg dark:text-primary text-dark-100">MTG Health Tracker</Text>
-                    <Text className="text-base dark:text-light-100 text-dark-200 mt-1">Track HP for MTG. Supports multiplayer.</Text>
-                  </View>
-                </View>
-            </Pressable>
+            {/* Maps through the MTG features and displays them if they are enabled */}
+            {FEATURES.slice(4, 6).map((feature) => 
+              enabledFeatures[feature.id] ? (
+                <Link
+                  key={feature.id}
+                  href={feature.route as any}
+                  asChild
+                >
+                  <Pressable>
+                    <View className="flex-row items-center my-2">
+                      <Image source={feature.icon} className="w-6 h-6 mr-4"></Image>
+                      <View className="flex-1">
+                        <Text className="text-lg dark:text-primary text-dark-100">{feature.name}</Text>
+                        <Text className="text-base dark:text-light-100 text-dark-200 mt-1">{feature.description}</Text>
+                      </View>
+                    </View>
+                  </Pressable>
+                </Link>
+              ) : null
+            )}
 
           </View>
         </View>

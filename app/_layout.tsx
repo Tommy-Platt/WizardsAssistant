@@ -55,6 +55,10 @@ export default function RootLayout() {
           name="(dnd)/dice"
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="(dnd)/session"
+          options={{ headerShown: false }}
+        />
         </Stack>
       </AuthProvider>
     </FeatureProvider>

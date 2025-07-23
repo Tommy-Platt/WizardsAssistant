@@ -60,7 +60,7 @@ export default function Login() {
           {/* Email Input Box */}
           <View className="mb-6">
             <Text className="text-lg font-semibold dark:text-primary text-dark-100 mb-2">Email</Text>
-            <View className="dark:bg-dark-300 bg-light-300 rounded-xl px-3 py-1">
+            <View className="dark:bg-dark-300 bg-light-300 rounded-xl px-3 py-3">
             <TextInput 
                 className="dark:text-primary text-dark-100" 
                 placeholder="Enter your email" 
@@ -74,7 +74,7 @@ export default function Login() {
           {/* Password Input Box */}
           <View className="mb-6">
             <Text className="text-lg font-semibold dark:text-primary text-dark-100 mb-2">Password</Text>
-            <View className="dark:bg-dark-300 bg-light-300 rounded-xl px-3 py-1">
+            <View className="dark:bg-dark-300 bg-light-300 rounded-xl px-3 py-3">
               <TextInput 
                 className="dark:text-primary text-dark-100" 
                 placeholder="Enter your password" 

@@ -16,6 +16,8 @@ import session from "@/assets/icons/session.png";
 import dice from "@/assets/icons/dice.png";
 import search from "@/assets/icons/search.png";
 import wand from "@/assets/icons/wand.png";
+import add from "@/assets/icons/add.png";
+import deleteNote from "@/assets/icons/delete.png";
 
 export const icons = {
   dnd,
@@ -36,4 +38,6 @@ export const icons = {
   dice,
   search,
   wand,
+  add,
+  deleteNote,
 };

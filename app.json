@@ -4,7 +4,7 @@
     "slug": "wizardsAssistant",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icons/WA-logo-trans.png",
+    "icon": "./assets/icons/WA-logo.png",
     "scheme": "wizardsassistant",
     "deepLinking": true,
     "userInterfaceStyle": "automatic",

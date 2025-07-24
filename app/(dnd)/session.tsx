@@ -48,6 +48,7 @@ const Session = () => {
     fetchNotes();
   }, []);
 
+  // Fetches session summaries from the database
   const fetchNotes = async () => {
     const {
       data: { user },
@@ -68,6 +69,7 @@ const Session = () => {
       }
   };
 
+  // Adds a new session summary to the database
   const addSession = async () => {
 
     const {
@@ -76,6 +78,7 @@ const Session = () => {
     } = await supabase.auth.getUser();
     if (!user || userError) return;
 
+    // Splits each line into an index for the array, gets rid of the bullet points
     const sessionPoints = sessionPointsText
       .split('\n')
       .map((line) => line.replace(/^•\s*/, '').trim())
@@ -104,6 +107,7 @@ const Session = () => {
     }
   };
 
+  // Deletes a selected summary from the database
   const deleteSummary = async (id: string) => {
     const { error } = await supabase.from('sessionsummaries').delete().eq('id', id);
     if (error) {
@@ -113,6 +117,7 @@ const Session = () => {
     }
   };
 
+  // Confirms the deletion of a summary with an alert
   const confirmDelete = (id: string) => {
     Alert.alert(
       'Delete Summary',
@@ -154,6 +159,7 @@ const Session = () => {
           <Text className="text-xl dark:text-primary text-dark-100 font-bold">Your Summaries</Text>
           <View className="h-0.5 bg-dark-100 dark:bg-primary my-4"></View>
 
+          {/* Maps over each available summary and displays it in the container */}
           {notes.map((note) => (
             <View className='dark:bg-dark-300 bg-light-300 p-4 rounded-xl mb-4 flex-row' key={note.id}>
 
@@ -166,7 +172,7 @@ const Session = () => {
               </View>
 
               <View className='flex-1 justify-center items-end'>
-                <Pressable onPress={() => confirmDelete(note.id)} accessibilityHint='Delete button'>
+                <Pressable onPress={() => confirmDelete(note.id)} accessibilityHint='Delete button' testID={`delete-button-${note.id}`}>
                   <ImageBackground source={images.highlight} className="px-4 py-2 bg-accent rounded-xl mx-1 overflow-hidden">
                     <Image source={icons.deleteNote} className='size-6' />
                   </ImageBackground>
@@ -178,6 +184,7 @@ const Session = () => {
 
         </View>
 
+        {/* A pop-up menu for adding new session summaries */}
         <Modal
           animationType="slide"
           transparent={true}
@@ -246,6 +253,7 @@ const Session = () => {
         </Modal>  
       </ScrollView>
 
+      {/* Add session summaries button. It overlays the rest of the screen. */}
       <View className="flex-row items-center justify-center absolute left-0 right-0 bottom-8 z-10 shadow-lg">
         <Pressable onPress={openModal} accessibilityHint='Pop up menu open button'>
           <ImageBackground source={images.highlight} className="px-4 py-2 bg-accent rounded-xl mx-1 overflow-hidden">

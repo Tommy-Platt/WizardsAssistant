@@ -93,7 +93,7 @@ export default function Index() {
         </View>
 
         {/* Forgot Password Link */}
-        <Link className="text-accent mb-36 mt-2" href="/reset-password/reset">
+        <Link className="text-accent mb-32 mt-6 justify-center text-center" href="/reset-password/reset">
           Reset your password
         </Link>
 

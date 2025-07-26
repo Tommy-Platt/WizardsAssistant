@@ -17,9 +17,9 @@ test('Rolls a D20 dice with no modifier', async () => {
   render(<Dice />);
 
   // Select basic D20 dice & roll
-  fireEvent.changeText(screen.getByPlaceholderText('Modifier'), '0');
+  fireEvent.changeText(screen.getByTestId('Modifier'), '0');
   fireEvent.press(screen.getByText('20'));
-  fireEvent.changeText(screen.getByPlaceholderText('Dice Multiplier'), '1');
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '1');
 
   fireEvent.press(screen.getByText('Roll!'));
 
@@ -45,9 +45,9 @@ test('Rolls a D12 dice with +5 modifier', async () => {
   render(<Dice />);
 
   // Select a D12 dice & roll with a modifier
-  fireEvent.changeText(screen.getByPlaceholderText('Modifier'), '5');
+  fireEvent.changeText(screen.getByTestId('Modifier'), '5');
   fireEvent.press(screen.getByText('12'));
-  fireEvent.changeText(screen.getByPlaceholderText('Dice Multiplier'), '1');
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '1');
 
   fireEvent.press(screen.getByText('Roll!'));
 
@@ -73,9 +73,9 @@ test('Rolls a D10 dice with multiplier of 2', async () => {
   render(<Dice />);
 
   // Select a D10 dice & roll with a multiplier
-  fireEvent.changeText(screen.getByPlaceholderText('Modifier'), '0');
+  fireEvent.changeText(screen.getByTestId('Modifier'), '0');
   fireEvent.press(screen.getByText('10'));
-  fireEvent.changeText(screen.getByPlaceholderText('Dice Multiplier'), '2');
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '2');
 
   fireEvent.press(screen.getByText('Roll!'));
 
@@ -101,13 +101,13 @@ test('Rolls a D8 dice with multiplier exceeding 100', async () => {
   render(<Dice />);
 
   // Select a D8 dice & roll with a multiplier exceeding 100
-  fireEvent.changeText(screen.getByPlaceholderText('Modifier'), '0');
+  fireEvent.changeText(screen.getByTestId('Modifier'), '0');
   fireEvent.press(screen.getByText('8')); // Select D8
-  fireEvent.changeText(screen.getByPlaceholderText('Dice Multiplier'), '101');
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '101');
 
   // Wait for app logic to reset the multiplier to 1
   await waitFor(() => {
-    const multiplierInput = screen.getByPlaceholderText('Dice Multiplier');
+    const multiplierInput = screen.getByTestId('Multiplier');
     expect(multiplierInput.props.value).toBe('1');
   });
 
@@ -136,9 +136,9 @@ test('Rolls a D6 dice with multiplier of 100 (edge case)', async () => {
   render(<Dice />);
 
   // Select a D6 dice & roll with a multiplier of 100
-  fireEvent.changeText(screen.getByPlaceholderText('Modifier'), '0');
+  fireEvent.changeText(screen.getByTestId('Modifier'), '0');
   fireEvent.press(screen.getByText('6'));
-  fireEvent.changeText(screen.getByPlaceholderText('Dice Multiplier'), '100');
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '100');
 
   fireEvent.press(screen.getByText('Roll!'));
 
@@ -159,9 +159,9 @@ test('Rolls a D6 dice with multiplier of 100 (edge case)', async () => {
 test('Rolls a D4 with advantage', async () => {
   render(<Dice />);
 
-  fireEvent.changeText(screen.getByPlaceholderText('Modifier'), '0');
+  fireEvent.changeText(screen.getByTestId('Modifier'), '0');
   fireEvent.press(screen.getByText('4'));
-  fireEvent.changeText(screen.getByPlaceholderText('Dice Multiplier'), '1');
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '1');
   fireEvent.press(screen.getByText('None'));
 
   const dropdown = screen.getByTestId('advantageDropdown');
@@ -185,9 +185,9 @@ test('Rolls a D4 with advantage', async () => {
 test('Rolls a D100 with disadvantage', async () => {
   render(<Dice />);
 
-  fireEvent.changeText(screen.getByPlaceholderText('Modifier'), '0');
+  fireEvent.changeText(screen.getByTestId('Modifier'), '0');
   fireEvent.press(screen.getByText('100'));
-  fireEvent.changeText(screen.getByPlaceholderText('Dice Multiplier'), '1');
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '1');
   fireEvent.press(screen.getByText('None'));
 
   const dropdown = screen.getByTestId('advantageDropdown');
@@ -211,9 +211,9 @@ test('Rolls a D100 with disadvantage', async () => {
 test('Rolls a D20 with advantage + modifier', async () => {
   render(<Dice />);
 
-  fireEvent.changeText(screen.getByPlaceholderText('Modifier'), '10');
+  fireEvent.changeText(screen.getByTestId('Modifier'), '10');
   fireEvent.press(screen.getByText('20'));
-  fireEvent.changeText(screen.getByPlaceholderText('Dice Multiplier'), '1');
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '1');
   fireEvent.press(screen.getByText('None'));
 
   const dropdown = screen.getByTestId('advantageDropdown');

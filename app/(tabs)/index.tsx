@@ -5,6 +5,7 @@ import { icons } from "@/constants/icons";
 import SignOutButton from "@/contexts/sign-out";
 import { FEATURES } from '@/constants/features';
 import { useFeatures } from '@/contexts/FeatureContext';
+import { Link } from "expo-router";
 
 export default function Index() {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -63,7 +64,7 @@ export default function Index() {
         </View>
 
         {/* Box that encapsulates features. Includes a title, divider and features w/ descriptions and checkboxes. */}
-        <View className="px-4 py-3 rounded-3xl dark:bg-dark-200 bg-light-200 mb-36">
+        <View className="px-4 py-3 rounded-3xl dark:bg-dark-200 bg-light-200">
           <Text className="text-xl dark:text-primary text-dark-100 font-bold">
           Choose your desired features to customise your experience.
           </Text>
@@ -88,9 +89,14 @@ export default function Index() {
                   />
               </View>
             ))}
-            
           </View>
         </View>
+
+        {/* Forgot Password Link */}
+        <Link className="text-accent mb-36 mt-2" href="/reset-password/reset">
+          Reset your password
+        </Link>
+
       </ScrollView>
     </View>
   );

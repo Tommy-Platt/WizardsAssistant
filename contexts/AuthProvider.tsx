@@ -1,42 +1,63 @@
-import { createContext, useContext, useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase'
-import { Session } from '@supabase/supabase-js'
-import { useRouter } from "expo-router";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
+import { Session } from '@supabase/supabase-js';
+import { useRouter } from 'expo-router';
+
+type Tokens = {
+  access_token: string;
+  refresh_token: string;
+};
 
 const AuthContext = createContext<{
-  session: Session | null
+  session: Session | null;
+  loginWithToken: (tokens: Tokens) => Promise<void>;
 }>({
   session: null,
-})
+  loginWithToken: async () => {},
+});
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [session, setSession] = useState<Session | null>(null)
-  const router = useRouter()
+  const [session, setSession] = useState<Session | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    // Get user details and set the session to these details
+    // Gets the current session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
+      setSession(session);
+    });
 
-    // Update the session if user details change
+    // Listens for auth changes
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
+      setSession(session);
+    });
 
     return () => {
-      listener.subscription.unsubscribe()
-    }
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
-  // If the session persists, redirect to the main menu.
+  // Redirects to main menu if session exists
   useEffect(() => {
-    if(session) {
-      router.replace("/(tabs)")
+    if (session) {
+      router.replace('/(tabs)');
     }
   }, [session]);
 
-  return <AuthContext.Provider value={{ session }}>{children}</AuthContext.Provider>
-}
+  // Function to log in with tokens
+  // This is used for deep linking and password reset flows
+  const loginWithToken = async ({ access_token, refresh_token }: Tokens) => {
+    await supabase.auth.setSession({ access_token, refresh_token });
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      setSession(session);
+    }
+  };
 
-export const useAuth = () => useContext(AuthContext)
+  return (
+    <AuthContext.Provider value={{ session, loginWithToken }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);

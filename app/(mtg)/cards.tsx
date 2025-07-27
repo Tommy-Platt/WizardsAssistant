@@ -59,8 +59,9 @@ const cards = () => {
   };
   
   // Check if there are more pages to display based on the current page and the total number of cards
-  const hasNextPage = currentPage * CARDS_PER_PAGE < allCards.length;
-  const hasPrevPage = currentPage > 1;
+  const totalPages = Math.ceil(allCards.length / CARDS_PER_PAGE);
+  const hasNextPage = Array.isArray(allCards) && currentPage < totalPages;
+  const hasPrevPage = Array.isArray(allCards) && currentPage > 1;
 
   return (
     // Main background view which can be scrolled.
@@ -149,6 +150,11 @@ const cards = () => {
               )}
             </View>
           </View>
+
+            {(hasNextPage || hasPrevPage) && (
+              <Text className='mt-2 text-xl dark:text-primary text-dark-100 text-center' accessibilityHint='Page numbers'>Page {currentPage} of {totalPages}</Text>
+            )}
+            
         </View>
       </ScrollView>
     </View>

@@ -1,13 +1,15 @@
 // Homepage/Settings menu for the app
-import { Text, View, Image, ScrollView, TouchableWithoutFeedback, Switch, Appearance, useColorScheme } from "react-native";
+import { Text, View, Image, ScrollView, TouchableWithoutFeedback, Switch, Appearance, useColorScheme, Pressable } from "react-native";
 import React, { useState } from "react";
 import { icons } from "@/constants/icons";
 import SignOutButton from "@/contexts/sign-out";
 import { FEATURES } from '@/constants/features';
 import { useFeatures } from '@/contexts/FeatureContext';
 import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 
 export default function Index() {
+  const router = useRouter();
   const [isEnabled, setIsEnabled] = useState(false);
   const colorScheme = useColorScheme();
   const { enabledFeatures, toggleFeature } = useFeatures();
@@ -28,10 +30,13 @@ export default function Index() {
         </Image>
         <View className="mx-auto px-4 py-3 rounded-full dark:bg-dark-200 bg-light-200">
           <View className="flex-row items-center self-stretch w-full justify-center">
-              <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
-              Features
-              </Text>
-              <SignOutButton />
+            <Pressable onPress={() => router.back()}>
+              <Image source={icons.back} className="size-8" />
+            </Pressable>
+            <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
+            Features
+            </Text>
+            <SignOutButton />
           </View>
         </View>
 

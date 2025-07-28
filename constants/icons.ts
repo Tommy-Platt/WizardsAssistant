@@ -18,6 +18,7 @@ import search from "@/assets/icons/search.png";
 import wand from "@/assets/icons/wand.png";
 import add from "@/assets/icons/add.png";
 import deleteNote from "@/assets/icons/delete.png";
+import back from "@/assets/icons/back.png";
 
 export const icons = {
   dnd,
@@ -40,4 +41,5 @@ export const icons = {
   wand,
   add,
   deleteNote,
+  back,
 };

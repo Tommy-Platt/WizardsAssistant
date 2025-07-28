@@ -1,8 +1,9 @@
 import { Pressable, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { supabase } from '../lib/supabase'; // adjust path if needed
-import { icons } from '../constants/icons'; // or wherever your icons are from
+import { supabase } from '../lib/supabase';
+import { icons } from '../constants/icons';
 
+// Reusable sign-out button component
 export default function SignOutButton() {
   const router = useRouter();
 
@@ -17,7 +18,7 @@ export default function SignOutButton() {
 
   return (
     <Pressable onPress={handleSignOut}>
-      <Image source={icons.account} className="size-8 -ml-8" />
+      <Image source={icons.account} className="size-8" />
     </Pressable>
   );
 }

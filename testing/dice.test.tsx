@@ -233,3 +233,165 @@ test('Rolls a D20 with advantage + modifier', async () => {
   expect(rolledNumber).toBeGreaterThanOrEqual(11);
   expect(rolledNumber).toBeLessThanOrEqual(30);
 });
+
+test('Rolls a D12 dice with -5 modifier', async () => {
+  render(<Dice />);
+
+  // Select a D12 dice & roll with a modifier
+  fireEvent.changeText(screen.getByTestId('Modifier'), '-5');
+  fireEvent.press(screen.getByText('12'));
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '1');
+
+  fireEvent.press(screen.getByText('Roll!'));
+
+  expect(global.alert).toHaveBeenCalled();
+
+  const alertMessage = (global.alert as jest.Mock).mock.calls[0][0];
+  console.log('ALERT:', alertMessage);
+  
+  const match = alertMessage.match(/Roll:\s*(\d+)/);
+  expect(match).not.toBeNull();
+  
+  const rolledNumber = parseInt(match[1], 10);
+  expect(rolledNumber).toBeGreaterThanOrEqual(-4);
+  expect(rolledNumber).toBeLessThanOrEqual(7);
+
+});
+
+test('Rolls a D4 dice with multiplier and advantage to check for alert', async () => {
+  render(<Dice />);
+
+  // Select a D4 dice & roll with a multiplier and advantage
+  fireEvent.press(screen.getByText('4'));
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '2');
+  fireEvent.press(screen.getByText('None'));
+
+  const dropdown = screen.getByTestId('advantageDropdown');
+  fireEvent(dropdown, 'onChange', { label: 'Advantage', value: 'advantage' });
+
+  fireEvent.press(screen.getByText('Roll!'));
+
+  expect(global.alert).toHaveBeenCalled();
+
+  const alertMessage = (global.alert as jest.Mock).mock.calls[0][0];
+  console.log('ALERT:', alertMessage);
+
+  const match = alertMessage.match(/Advantage rolls do not support dice multipliers\. Resetting to 1\./);
+  expect(match).not.toBeNull();
+
+});
+
+test('Rolls a D8 dice with multiplier and disadvantage to check for alert', async () => {
+  render(<Dice />);
+
+  // Select a D8 dice & roll with a multiplier and disadvantage
+  fireEvent.press(screen.getByText('8'));
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '2');
+  fireEvent.press(screen.getByText('None'));
+
+  const dropdown = screen.getByTestId('advantageDropdown');
+  fireEvent(dropdown, 'onChange', { label: 'Disadvantage', value: 'disadvantage' });
+
+  fireEvent.press(screen.getByText('Roll!'));
+
+  expect(global.alert).toHaveBeenCalled();
+
+  const alertMessage = (global.alert as jest.Mock).mock.calls[0][0];
+  console.log('ALERT:', alertMessage);
+
+  const match = alertMessage.match(/Disadvantage rolls do not support dice multipliers\. Resetting to 1\./);
+  expect(match).not.toBeNull();
+
+});
+
+test('Rolls a D20 dice with nonnumerical multiplier to check for escaping NaN inputs', async () => {
+  render(<Dice />);
+
+  // Select a D20 dice & roll with a multiplier of "!"
+  fireEvent.press(screen.getByText('20'));
+  fireEvent.changeText(screen.getByTestId('Multiplier'), '!');
+  fireEvent.press(screen.getByText('None'));
+
+  fireEvent.press(screen.getByText('Roll!'));
+
+  expect(global.alert).toHaveBeenCalled();
+
+  const alertMessage = (global.alert as jest.Mock).mock.calls[0][0];
+  console.log('ALERT:', alertMessage);
+  
+  const match = alertMessage.match(/Roll:\s*(\d+)/);
+  expect(match).not.toBeNull();
+  
+  const rolledNumber = parseInt(match[1], 10);
+  expect(rolledNumber).toBeGreaterThanOrEqual(1);
+  expect(rolledNumber).toBeLessThanOrEqual(20);
+});
+
+test('Rolls a D100 dice with nonnumerical modifier to check for escaping NaN inputs', async () => {
+  render(<Dice />);
+
+  // Select a D20 dice & roll with a modifier of "!"
+  fireEvent.press(screen.getByText('100'));
+  fireEvent.changeText(screen.getByTestId('Modifier'), '!');
+  fireEvent.press(screen.getByText('None'));
+
+  fireEvent.press(screen.getByText('Roll!'));
+
+  expect(global.alert).toHaveBeenCalled();
+
+  const alertMessage = (global.alert as jest.Mock).mock.calls[0][0];
+  console.log('ALERT:', alertMessage);
+  
+  const match = alertMessage.match(/Roll:\s*(\d+)/);
+  expect(match).not.toBeNull();
+  
+  const rolledNumber = parseInt(match[1], 10);
+  expect(rolledNumber).toBeGreaterThanOrEqual(1);
+  expect(rolledNumber).toBeLessThanOrEqual(100);
+});
+
+test('Rolls a D10 dice with empty modifier to check for escaping NaN inputs', async () => {
+  render(<Dice />);
+
+  // Select a D10 dice & roll with a modifier of ""
+  fireEvent.press(screen.getByText('10'));
+  fireEvent.changeText(screen.getByTestId('Modifier'), '');
+  fireEvent.press(screen.getByText('None'));
+
+  fireEvent.press(screen.getByText('Roll!'));
+
+  expect(global.alert).toHaveBeenCalled();
+
+  const alertMessage = (global.alert as jest.Mock).mock.calls[0][0];
+  console.log('ALERT:', alertMessage);
+  
+  const match = alertMessage.match(/Roll:\s*(\d+)/);
+  expect(match).not.toBeNull();
+  
+  const rolledNumber = parseInt(match[1], 10);
+  expect(rolledNumber).toBeGreaterThanOrEqual(1);
+  expect(rolledNumber).toBeLessThanOrEqual(10);
+});
+
+test('Rolls a D6 dice with empty multiplier to check for escaping NaN inputs', async () => {
+  render(<Dice />);
+
+  // Select a D6 dice & roll with a multiplier of ""
+  fireEvent.press(screen.getByText('6'));
+  fireEvent.changeText(screen.getByTestId('Modifier'), '');
+  fireEvent.press(screen.getByText('None'));
+
+  fireEvent.press(screen.getByText('Roll!'));
+
+  expect(global.alert).toHaveBeenCalled();
+
+  const alertMessage = (global.alert as jest.Mock).mock.calls[0][0];
+  console.log('ALERT:', alertMessage);
+  
+  const match = alertMessage.match(/Roll:\s*(\d+)/);
+  expect(match).not.toBeNull();
+  
+  const rolledNumber = parseInt(match[1], 10);
+  expect(rolledNumber).toBeGreaterThanOrEqual(1);
+  expect(rolledNumber).toBeLessThanOrEqual(6);
+});

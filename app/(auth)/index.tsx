@@ -14,7 +14,8 @@ export default function Login() {
     const [loading, setLoading] = useState(false)
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-      webClientId: '785004448257-m2gudgbi736qlhh9ms010uc05c7gi3tr.apps.googleusercontent.com',  })
+      webClientId: '785004448257-m2gudgbi736qlhh9ms010uc05c7gi3tr.apps.googleusercontent.com',
+      iosClientId: '785004448257-1krp0hsltbs80nq1h6pcdtfdr8nadtvk.apps.googleusercontent.com',  })
   
     // Function calls Supabase sign-in to check credentials
     async function signInWithEmail() {

@@ -80,10 +80,13 @@ const Spells = () => {
         </Image>
         <View className="mx-auto px-4 py-3 rounded-full dark:bg-dark-200 bg-light-200 mb-4">
           <View className="flex-row items-center self-stretch w-full justify-center">
-              <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
-              D&D Spells
-              </Text>
-              <SignOutButton />
+            <Pressable onPress={() => router.back()}>
+              <Image source={icons.back} className="size-8" />
+            </Pressable>
+            <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
+            D&D Spells
+            </Text>
+            <SignOutButton />
           </View>
         </View>
 

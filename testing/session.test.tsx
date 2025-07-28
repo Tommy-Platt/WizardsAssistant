@@ -54,7 +54,7 @@ jest.mock('@/lib/supabase', () => ({
   },
 }));
 
-test('Adds a new session for the user', async () => {
+test('Adds a new session summary for the user', async () => {
 
   const { getByPlaceholderText, getByText, queryByText } = render(<Session />);
 
@@ -74,6 +74,125 @@ test('Adds a new session for the user', async () => {
     expect(queryByText('Test Session')).toBeTruthy();
     expect(queryByText('• Point 1')).toBeTruthy();
     expect(queryByText('Session Description')).toBeTruthy();
+  });
+
+});
+
+test('Adds a new session summary with missing title', async () => {
+
+  const { getByPlaceholderText, getByText, queryByText } = render(<Session />);
+
+  fireEvent.press(screen.getByAccessibilityHint('Pop up menu open button'));
+
+  // Inputs the session name, points, and description
+  fireEvent.changeText(getByPlaceholderText("Session 1 - Dragon's Lair"), '');
+  fireEvent.changeText(getByPlaceholderText('• Killed the dragon...'), 'Point 1');
+  fireEvent.changeText(getByPlaceholderText('At the beginning of the session...'), 'Session Description');
+
+  fireEvent.press(getByText('Submit'));
+
+  fireEvent.press(screen.getByAccessibilityHint('Pop up menu close button'));
+
+  // Waits for the new session summary to appear on screen
+  waitFor(() => {
+    expect(queryByText('')).toBeTruthy();
+    expect(queryByText('• Point 1')).toBeTruthy();
+    expect(queryByText('Session Description')).toBeTruthy();
+  });
+
+});
+
+test('Adds a new session summary with missing points', async () => {
+
+  const { getByPlaceholderText, getByText, queryByText } = render(<Session />);
+
+  fireEvent.press(screen.getByAccessibilityHint('Pop up menu open button'));
+
+  // Inputs the session name, points, and description
+  fireEvent.changeText(getByPlaceholderText("Session 1 - Dragon's Lair"), 'New Session');
+  fireEvent.changeText(getByPlaceholderText('• Killed the dragon...'), '');
+  fireEvent.changeText(getByPlaceholderText('At the beginning of the session...'), 'Session Description');
+
+  fireEvent.press(getByText('Submit'));
+
+  fireEvent.press(screen.getByAccessibilityHint('Pop up menu close button'));
+
+  // Waits for the new session summary to appear on screen
+  waitFor(() => {
+    expect(queryByText('Test Session')).toBeTruthy();
+    expect(queryByText('')).toBeTruthy();
+    expect(queryByText('Session Description')).toBeTruthy();
+  });
+
+});
+
+test('Adds a new session summary with missing description', async () => {
+
+  const { getByPlaceholderText, getByText, queryByText } = render(<Session />);
+
+  fireEvent.press(screen.getByAccessibilityHint('Pop up menu open button'));
+
+  // Inputs the session name, points, and description
+  fireEvent.changeText(getByPlaceholderText("Session 1 - Dragon's Lair"), 'New Session');
+  fireEvent.changeText(getByPlaceholderText('• Killed the dragon...'), 'Point 1');
+  fireEvent.changeText(getByPlaceholderText('At the beginning of the session...'), '');
+
+  fireEvent.press(getByText('Submit'));
+
+  fireEvent.press(screen.getByAccessibilityHint('Pop up menu close button'));
+
+  // Waits for the new session summary to appear on screen
+  waitFor(() => {
+    expect(queryByText('Test Session')).toBeTruthy();
+    expect(queryByText('• Point 1')).toBeTruthy();
+    expect(queryByText('')).toBeTruthy();
+  });
+
+});
+
+test('Adds a new empty session summary', async () => {
+
+  const { getByPlaceholderText, getByText, queryByText } = render(<Session />);
+
+  fireEvent.press(screen.getByAccessibilityHint('Pop up menu open button'));
+
+  // Inputs the session name, points, and description
+  fireEvent.changeText(getByPlaceholderText("Session 1 - Dragon's Lair"), '');
+  fireEvent.changeText(getByPlaceholderText('• Killed the dragon...'), '');
+  fireEvent.changeText(getByPlaceholderText('At the beginning of the session...'), '');
+
+  fireEvent.press(getByText('Submit'));
+
+  fireEvent.press(screen.getByAccessibilityHint('Pop up menu close button'));
+
+  // Waits for the new session summary to appear on screen
+  waitFor(() => {
+    expect(queryByText('')).toEqual(3);
+  });
+
+});
+
+test('Adds a new session summary with multiple points', async () => {
+
+  const { getByPlaceholderText, getByText, queryByText } = render(<Session />);
+
+  fireEvent.press(screen.getByAccessibilityHint('Pop up menu open button'));
+
+  // Inputs the session name, points, and description
+  fireEvent.changeText(getByPlaceholderText("Session 1 - Dragon's Lair"), 'New Session');
+  fireEvent.changeText(getByPlaceholderText('• Killed the dragon...'), 'Point 1{\n}Point 2');
+  fireEvent.changeText(getByPlaceholderText('At the beginning of the session...'), 'Description');
+
+  fireEvent.press(getByText('Submit'));
+
+  fireEvent.press(screen.getByAccessibilityHint('Pop up menu close button'));
+
+  // Waits for the new session summary to appear on screen
+  waitFor(() => {
+    expect(queryByText('Test Session')).toBeTruthy();
+    expect(queryByText('• Point 1')).toBeTruthy();
+    expect(queryByText('• Point 2')).toBeTruthy();
+    expect(queryByText('Description')).toBeTruthy();
   });
 
 });

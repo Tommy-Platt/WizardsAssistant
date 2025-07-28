@@ -4,8 +4,10 @@ import SignOutButton from '@/contexts/sign-out'
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { supabase } from '../../lib/supabase'
+import { useRouter } from 'expo-router';
 
 const Session = () => {
+  const router = useRouter();
 
   // This reflects the structure of the session summary in the database
   interface SessionSummary {
@@ -148,10 +150,13 @@ const Session = () => {
         </Image>
         <View className="mx-auto px-4 py-3 rounded-full dark:bg-dark-200 bg-light-200">
           <View className="flex-row items-center self-stretch w-full justify-center">
-              <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
-                D&D Session Summaries
-              </Text>
-              <SignOutButton />
+            <Pressable onPress={() => router.back()}>
+              <Image source={icons.back} className="size-8" />
+            </Pressable>
+            <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
+              D&D Session Summaries
+            </Text>
+            <SignOutButton />
           </View>
         </View>
 

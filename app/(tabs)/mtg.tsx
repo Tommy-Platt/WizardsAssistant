@@ -6,8 +6,10 @@ import SignOutButton from "@/contexts/sign-out";
 import { Link } from 'expo-router';
 import { FEATURES } from '@/constants/features';
 import { useFeatures } from '@/contexts/FeatureContext';
+import { useRouter } from "expo-router";
 
 export default function MTG() {
+  const router = useRouter();
   const { enabledFeatures } = useFeatures();
 
   return (
@@ -25,10 +27,13 @@ export default function MTG() {
         </Image>
         <View className="mx-auto px-4 py-3 rounded-full dark:bg-dark-200 bg-light-200">
           <View className="flex-row items-center self-stretch w-full justify-center">
-              <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
-              MTG Tools
-              </Text>
-              <SignOutButton />
+            <Pressable onPress={() => router.back()}>
+              <Image source={icons.back} className="size-8" />
+            </Pressable>
+            <Text className="text-2xl dark:text-primary text-dark-100 font-regular text-center flex-1">
+            MTG Tools
+            </Text>
+            <SignOutButton />
           </View>
         </View>
 

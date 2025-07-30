@@ -68,15 +68,6 @@ export default function DND() {
             
           </View>
         </View>
-
-      <View className="flex-1 items-center justify-center -mb-30">
-        <Image 
-          source={images.dndLarge} 
-          className="w-full h-auto max-w-md" 
-          resizeMode="contain"
-        />
-      </View>
-
       </ScrollView>
     </View>
   );

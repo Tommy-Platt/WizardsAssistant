@@ -2,7 +2,7 @@
   "expo": {
     "name": "wizardsAssistant",
     "slug": "wizardsAssistant",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icons/WA-logo.png",
     "scheme": "wizardsassistant",
@@ -15,8 +15,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/WA-logo.png",
+        "backgroundColor": "#121212"
       },
       "package": "com.tplatt.wizardsassistant",
       "intentFilters": [

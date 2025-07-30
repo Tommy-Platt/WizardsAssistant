@@ -68,15 +68,6 @@ export default function MTG() {
 
           </View>
         </View>
-
-      <View className="flex-1 items-center justify-center">
-        <Image 
-          source={images.mtgLarge} 
-          className="w-full h-auto max-w-md" 
-          resizeMode="contain"
-        />
-      </View>
-
       </ScrollView>
     </View>
   );

@@ -26,10 +26,12 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="wizardsassistant"/>
         <data android:scheme="com.tplatt.wizardsassistant"/>
+        <data android:scheme="exp+wizardsassistant"/>
       </intent-filter>
       <intent-filter data-generated="true">
         <action android:name="android.intent.action.VIEW"/>
         <data android:scheme="wizardsassistant"/>
+        <data android:scheme="exp+wizardsassistant"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <category android:name="android.intent.category.DEFAULT"/>
       </intent-filter>
